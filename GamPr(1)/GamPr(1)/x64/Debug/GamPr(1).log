@@ -1,5 +1,2 @@
-﻿  숫자다루기.cpp
-C:\Users\USER\source\repos\GamPr(1)\GamPr(1)\숫자다루기.cpp(19,12): warning C4244: '*=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  케잌자르기.cpp
-  코드를 생성하고 있습니다...
-  GamPr(1).vcxproj -> C:\Users\USER\source\repos\GamPr(1)\x64\Debug\GamPr(1).exe
+﻿  야구게임.cpp
+  GamPr(1).vcxproj -> D:\github\GameProjectStudy\GamPr(1)\x64\Debug\GamPr(1).exe
