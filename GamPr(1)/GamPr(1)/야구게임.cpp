@@ -22,7 +22,7 @@ int main()
 		nums[randomIndex] = nums[randomIndex2];
 		nums[randomIndex2] = temp;
 	}
-
+	
 	for (int i = 0; i < 3; i++) {
 		vec.push_back(nums[i]);
 	}
