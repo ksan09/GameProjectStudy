@@ -14,13 +14,12 @@ int main()
 	vector<int> vec;
 	int nums[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	for (int i = 0; i < 100; i++) {
-		int randomIndex = rand() % 9;
-		int randomIndex2 = rand() % 9;
+	for (int i = 0; i < 9; i++) {
+		int randomIndex = rand() % (9 - i) + i;
 
-		int temp = nums[randomIndex];
-		nums[randomIndex] = nums[randomIndex2];
-		nums[randomIndex2] = temp;
+		int temp = nums[i];
+		nums[i] = nums[randomIndex];
+		nums[randomIndex] = temp;
 	}
 	
 	for (int i = 0; i < 3; i++) {

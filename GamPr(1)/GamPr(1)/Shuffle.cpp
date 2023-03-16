@@ -14,6 +14,7 @@ int main()
         numList.push_back(i + 1);
     }
 
+    // Knuth Shuffle
     for (int i = 0; i < numList.size(); i++) {
         int randomIndex = rand() % (numList.size() - i) + i;
 
