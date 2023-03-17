@@ -9,35 +9,32 @@ enum Difficult {
 	HARD
 };
 
+void Init();
+void GameStart(Difficult mode, int _iSleep);
+
 void PrintNum(int mode, int *question, float *difficultSec);
 
 int main() 
 {
-	srand((unsigned int)time(NULL));
-	int question[15] = { };
-	float difficultSec[3] = { 1.0f, 0.7f, 0.5f };
+	Init();
 	int iSelectMode = 0;
-	Difficult difficult = EASY;
-	cout << "================================\n";
-	cout << "숫자 기억 게임입니다. 모드를 선택하세요.\n";
-	cout << "EASY: 1, NORMAL: 2, HARD: 3\n";
-	cout << "================================\n";
 	cin >> iSelectMode;
+	system("cls");
 	switch (iSelectMode)
 	{
 	case EASY: 
 	{
-		PrintNum(iSelectMode, question, difficultSec);
+		GameStart(EASY, 1000);
 	}
 	break;
 	case NORMAL:
 	{
-		PrintNum(iSelectMode, question, difficultSec);
+		GameStart(NORMAL, 700);
 	}
 	break;
 	case HARD:
 	{
-		PrintNum(iSelectMode, question, difficultSec);
+		GameStart(HARD, 500);
 	}
 	break;
 	default:
@@ -45,47 +42,58 @@ int main()
 	}
 	
 }
-
-void PrintNum(int mode, int *question, float *difficultSec)
+void Init()
 {
-	system("cls");
+	cout << "================================\n";
+	cout << "숫자 기억 게임입니다. 모드를 선택하세요.\n";
+	cout << "EASY: 1, NORMAL: 2, HARD: 3\n";
+	cout << "================================\n";
+	srand((unsigned int)time(NULL));
+}
+
+void GameStart(Difficult mode, int iSleep)
+{
 	int repeat = mode * 5;
+
+	int *question = new int[repeat];
+	int iInput;
 	for (int i = 0; i < repeat; i++) {
-		int randomNum = rand() % 100 + 1;
-		cout << randomNum << ' ';
-		question[i] = randomNum;
+		question[i] = rand() % 100 + 1;
 	}
-	Sleep(difficultSec[mode - 1] * 1000);
+	for (int i = 0; i < repeat; i++) {
+		cout << question[i] << ' ';
+		Sleep(iSleep);
+	}
 	system("cls");
 	switch (mode)
 	{
 	case EASY:
 	{
-		cout << "EASY";
+		cout << "EASY 모드 입니다.\n";
 	}
 	break;
 	case NORMAL:
 	{
-		cout << "NORMAL";
+		cout << "NORMAL 모드 입니다.\n";
 	}
 	break;
 	case HARD:
 	{
-		cout << "HARD";
+		cout << "HARD 모드 입니다.\n";
 	}
 	break;
 	default:
 		break;
 	}
-	cout << " 모드입니다.\n";
 	cout << "방금 본 숫자를 입력하세요: \n";
-	int input = 0;
 	for (int i = 0; i < repeat; i++) {
-		cin >> input;
-		if (input != question[i]) {
+		cin >> iInput;
+		if (iInput != question[i]) {
 			cout << "땡! 틀렸습니다.";
+			delete[] question;
 			return;
 		}
 	}
-	cout << "\n축하합니다. 모두 맞추셨네요.";
+	cout << "\n축하합니다. 모두 맞추셨네요.\n";
+	delete[] question;
 }
