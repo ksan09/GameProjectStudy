@@ -20,7 +20,7 @@ Difficult SelectAimode() {
 	cout << "1. Easy\n";
 	cout << "2. Normal\n";
 	cout << "3. Hard\n";
-	cout << "4. Hell\n";
+	cout << "4. Hell <- 미개발\n";
 	cout << "ai모드를 선택하세요: ";
 
 	int difficult;
@@ -45,15 +45,99 @@ void RenderNumber(int* arr, int& iBingo) {
 	}
 	cout << "Bingo Line: " << iBingo << endl;
 }
+int LineCheck(int* arr, int lineNum, bool isHorizontal) {
+	int checkCnt = 0;
+	for (int i = 0; i < 5; i++) {
+		if ((isHorizontal ? arr[lineNum * 5 + i] : arr[lineNum + i * 5]) == INT_MAX) {
+			checkCnt++;
+		}	
+	}
+	if (checkCnt >= 5) return 0;
+	return checkCnt;
+}
+int MaxLineNum(int* arr) {
+	// 가로랑 세로랑 대각선을 체크해서 그 라인의 가장 많이 체크되어있는 쪽에서 하나를 고른다.
+	int lineNum = 0;
+
+	int maxCheck = 0;
+	int lineCheck = 0;
+	// 가로체크 1 2 3 4 5
+	for (int i = 0; i < 5; ++i) {
+		if (lineCheck == 4) break;
+		lineCheck = LineCheck(arr, i, true);
+		if (maxCheck < lineCheck) {
+			lineNum = i + 1;
+			maxCheck = lineCheck;
+		}
+	}
+	// 세로체크 6 7 8 9 10
+	for (int i = 0; i < 5; ++i) {
+		if (lineCheck == 4) break;
+		lineCheck = LineCheck(arr, i, false);
+		if (maxCheck < lineCheck) {
+			lineNum = i + 6;
+			maxCheck = lineCheck;
+		}
+	}
+	// 대각선 체크 11 12
+	lineCheck = 0;
+	for (int i = 0; i < 25; i += 6) {
+		if (arr[i] == INT_MAX)
+			lineCheck++;
+	}
+	if (maxCheck < lineCheck && lineCheck != 5) {
+		lineNum = 11;
+		maxCheck = lineCheck;
+	}
+	lineCheck = 0;
+	for (int i = 4; i < 21; i += 4) {
+		if (arr[i] == INT_MAX)
+			lineCheck++;
+	}
+	if (maxCheck < lineCheck && lineCheck != 5) {
+		lineNum = 12;
+		maxCheck = lineCheck;
+	}
+
+	return lineNum;
+}
+int OutputLineNum(int* arr, int lineNum) {
+	if (lineNum > 0 && lineNum <= 5) {
+		lineNum--;
+		for (int i = 0; i < 5; ++i) {
+			if (arr[lineNum * 5 + i] != INT_MAX)
+				return arr[lineNum * 5 + i];
+		}
+	}
+	else if (lineNum <= 10) {
+		lineNum-=6;
+		for (int i = 0; i < 5; ++i) {
+			if (arr[lineNum + i * 5] != INT_MAX)
+				return arr[lineNum + i * 5];
+		}
+	}
+	else if (lineNum == 11) {
+		for (int i = 0; i < 25; i += 6) {
+			if (arr[i] != INT_MAX)
+				return arr[i];
+		}
+	}
+	else if (lineNum == 12) {
+		for (int i = 4; i < 21; i += 4) {
+			if (arr[i] != INT_MAX)
+				return arr[i];
+		}
+	}
+	return arr[0];
+}
 int SelectAiNumber(int *arr, int arrSize, Difficult difficult) {
-
-	int iNoneSelect[25] = {};
-	int iNoneSelectCnt = 0;
-
 	switch (difficult)
 	{
 	case Difficult::EASY:
 	{
+		int iNoneSelect[25] = {};
+		int iNoneSelectCnt = 0;
+
 		for (int i = 0; i < 25; ++i) {
 			if (arr[i] != INT_MAX) {
 				iNoneSelect[iNoneSelectCnt] = arr[i];
@@ -67,17 +151,35 @@ int SelectAiNumber(int *arr, int arrSize, Difficult difficult) {
 		break;
 	case Difficult::NORMAL:
 	{
-
+		int lineNum = MaxLineNum(arr);
+		
+		// 제일 많았던 라인넘버에 있는 곳에서 입력
+		return OutputLineNum(arr, lineNum);
 	}
 		break;
 	case Difficult::HARD:
 	{
+		int lineNum = MaxLineNum(arr);
 
+		// 맨 처음 시작할 때는 가운데 입력
+		if (arr[12] != INT_MAX) return arr[12];
+
+		// 제일 많았던 라인넘버에 있는 곳에서 입력
+		return OutputLineNum(arr, lineNum);
 	}
 		break;
 	case Difficult::HELL:
 	{
+		int lineNum = MaxLineNum(arr);
 
+		// 맨 처음 시작할 때는 가운데 입력
+		if (arr[12] != INT_MAX) return arr[12];
+
+		// 제일 많았던 라인넘버에 있는 곳에서
+		// 다른 경우의 수가 가장 높은 곳 입력
+		
+		// 고민을 해봤는데 깔끔한 코드가 생각나지 않아
+		// 나중에 깔끔한 코드가 생각이 난다면 적어보겠습니다.
 	}
 		break;
 	default:
@@ -138,14 +240,11 @@ int BingoCheck(int* arr) {
 
 }
 void ChangeNum(int* arr, int num, int arrSize) {
-	
 	for (int i = 0; i < arrSize; ++i) {
 		if (arr[i] == num) {
 			arr[i] = INT_MAX;
 		}
-
 	}
-
 }
 void AIInput(int* arr, int* aiArr, int arrSize, Difficult difficult) {
 	int aiChooseNum = 0;
@@ -258,7 +357,9 @@ int main() {
 
 		// ai모드에 따라서 ai가 선택할 숫자를 만들어야 한다. 
 		input = SelectAiNumber(iAINumbers, arrSize, iDifficult);
-		
+		cout << "AI가 선택한 수는 " << input << "입니다.\n";
+		Sleep(1000);
+
 		// 입력된 수를 별표로 바꿔야함
 		ChangeNum(iNumbers, input, arrSize);
 		ChangeNum(iAINumbers, input, arrSize);
