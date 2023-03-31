@@ -1,2 +1,4 @@
-﻿  함수선언정의.cpp
+﻿  testing.cpp
+D:\github\GameProjectStudy\GamPr(1)\GamPr(1)\testing.cpp(34,17): warning C4244: '인수': 'double'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\github\GameProjectStudy\GamPr(1)\GamPr(1)\testing.cpp(46,27): warning C4244: '인수': 'double'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   GamPr(1).vcxproj -> D:\github\GameProjectStudy\GamPr(1)\x64\Debug\GamPr(1).exe

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="MIROGAME">
+      <UniqueIdentifier>{a90aeb4b-0e73-473f-afc7-b860ac4a05b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="숫자다루기.cpp">
@@ -54,15 +57,21 @@
     <ClCompile Include="함수선언정의.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="add.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="05선생님의빙고.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ASCII_ART.cpp">
+      <Filter>MIROGAME</Filter>
+    </ClCompile>
+    <ClCompile Include="testing.cpp">
+      <Filter>MIROGAME</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="add.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
