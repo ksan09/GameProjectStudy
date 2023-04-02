@@ -57,6 +57,8 @@ int main() {
 		else
 			cout << "안타깝네요" << '\n';
 
+		cout << "정답은 " << soundName[randSoundIdx] << '\n';
+
 		cout << "게임을 그만둘까요? (Y/N)" << '\n';
 
 		char chInput = _getch();
