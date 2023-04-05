@@ -66,6 +66,9 @@
     <ClCompile Include="testing.cpp">
       <Filter>MIROGAME</Filter>
     </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>MIROGAME</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="add.h">
@@ -74,5 +77,18 @@
     <ClInclude Include="test.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GamPr(1).rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="C:\Users\USER\Downloads\laserShoot.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
   </ItemGroup>
 </Project>
