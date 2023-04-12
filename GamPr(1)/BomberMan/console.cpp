@@ -8,12 +8,20 @@ void FullScreen()
 		 CONSOLE_FULLSCREEN_MODE, NULL);
 }
 
-void GoToXY(int x, int y)
+void GoToxy(int x, int y)
 {
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD Cur = { x, y };
 
 	SetConsoleCursorPosition(hOut, Cur);
+}
+
+BOOL GoToxyTest(int x, int y)
+{
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD Cur = { x, y };
+
+	return SetConsoleCursorPosition(hOut, Cur);
 }
 
 void CursorSet(bool _bVis, DWORD _dwSize)

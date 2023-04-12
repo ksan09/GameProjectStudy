@@ -10,7 +10,8 @@ enum class COLOR
 };
 
 void FullScreen();
-void GoToXY(int, int);
+void GoToxy(int, int);
+BOOL GoToxyTest(int, int);
 void CursorSet(bool, DWORD);
 void SetColor(int, int);
 int GetColor();
