@@ -5,12 +5,19 @@
 
 #include "console.h"
 #include "StartScene.h"
+#include "GameLogic.h"
 
 using namespace std;
 
 int main()
 {
-	SetConsoleTitle(TEXT("2-3 Bombman"));
+	char cMaze[VERTICAL][HORIZON] = {};
+	PLAYER tPlayer = {};
+	POS tStartpos = {};
+	POS tEndpos = {};
+
+	Init(cMaze, &tPlayer, &tStartpos, &tEndpos);
+	
 	// 시작씬 제작
 	while (true)
 	{
@@ -36,4 +43,10 @@ int main()
 		
 	}
 	// 게임 로직..
+
+	while (true)
+	{
+		Update(cMaze, &tPlayer);
+		Render(cMaze, &tPlayer);
+	}
 }

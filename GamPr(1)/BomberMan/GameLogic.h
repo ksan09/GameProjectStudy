@@ -29,4 +29,8 @@ typedef struct _tagboom
 	bool bDie;
 }BOOM, * PBOOM;
 
-
+// 초기화
+void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, 
+	PPOS _pStartpos, PPOS _pEndpos);
+void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer); // 값 변경
+void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer); // 출력
