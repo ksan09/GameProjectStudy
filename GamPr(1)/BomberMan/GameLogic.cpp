@@ -1,7 +1,11 @@
 #include <iostream>
 #include <Windows.h>
+#include <algorithm>
+#include <conio.h>
+#include <vector>
 #include "GameLogic.h"
 #include "console.h"
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 
@@ -30,30 +34,65 @@ void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPO
 	strcpy_s(_cMaze[17], "00000001111111111100" );
 	strcpy_s(_cMaze[18], "00000000000000000100" );
 	strcpy_s(_cMaze[19], "00000000000000000100" );
+
+	_pStartpos->x = 0;
+	_pStartpos->y = 0;
+	_pEndpos->x = 19;
+	_pEndpos->y = 8;
+
+	PLAYER tSetPlayer = { *_pStartpos, 
+		1, 0, false, false, false };
+	*_pPlayer = tSetPlayer;
+
+
 }
 
-void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer)
+void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, 
+	vector<BOOM> vecBomb, vector<POS> boomEffect)
 {
+	_pPlayer->tNewPos = _pPlayer->tpos;
+
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
-		--_pPlayer->tpos.y;
+		--_pPlayer->tNewPos.y;
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		++_pPlayer->tpos.y;
+		++_pPlayer->tNewPos.y;
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-		--_pPlayer->tpos.x;
+		--_pPlayer->tNewPos.x;
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-		++_pPlayer->tpos.x;
+		++_pPlayer->tNewPos.x;
+
+	_pPlayer->tNewPos.x = std::clamp(_pPlayer->tNewPos.x, 0, HORIZON -2);
+	_pPlayer->tNewPos.y = std::clamp(_pPlayer->tNewPos.y, 0, VERTICAL-1);
+
+	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != '0')
+		_pPlayer->tpos = _pPlayer->tNewPos;
+
+	if (_kbhit())
+	{
+		int iInput = _getch();
+		if (iInput == 32)
+		{
+			BOOM boom = { _pPlayer->tpos.x,
+			_pPlayer->tpos.y, 10, false };
+
+			vecBomb.push_back(boom);
+
+			_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x] = 'b';
+		}
+	}
+	
+		
 	Sleep(100);
 }
 
-void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer)
+void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
+	vector<POS> boomEffect)
 {
-	system("cls");
-
 	for (int i = 0; i < VERTICAL; ++i)
 	{
 		for (int j = 0; j < HORIZON; ++j)
 		{
-			if (i == _pPlayer->tpos.y 
+			if (i == _pPlayer->tpos.y
 				&& j == _pPlayer->tpos.x)
 				cout << "¡×";
 			else if (_cMaze[i][j] == '0') // º®
@@ -64,7 +103,23 @@ void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer)
 				cout << "¢Ã";
 			else if (_cMaze[i][j] == '3') // µµÂø
 				cout << "¢Í";
-
+			else if (_cMaze[i][j] == '4') // ¹°Ç³¼± powerup
+				cout << "¢Ä";
+			else if (_cMaze[i][j] == '4') // ½½¶óÀÓ
+				cout << "¢»";
+			else if (_cMaze[i][j] == '4') // º®¹Ð±â
+				cout << "¢Ð";
+			else if (_cMaze[i][j] == 'b') // ¹°Ç³¼±!
+			{
+				SetColor((int)COLOR::LIGHT_BLUE, (int)COLOR::BLACK);
+				cout << "¢Á";
+			}
+			else if (_cMaze[i][j] == 'p') // ¹°Ç³¼± ±ôºý
+			{
+				SetColor((int)COLOR::MINT, (int)COLOR::BLACK);
+				cout << "¡Ý";
+			}
+			SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 		}
 		cout << '\n';
 	}
