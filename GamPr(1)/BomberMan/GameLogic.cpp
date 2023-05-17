@@ -13,6 +13,7 @@ void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPO
 {
 	SetConsoleTitle(TEXT("2-3 Bombman"));
 	CursorSet(false, 1);
+	srand((unsigned int)time(NULL));
 
 	strcpy_s(_cMaze[0],  "21111100000000000000" );
 	strcpy_s(_cMaze[1],  "00000111111111001000" );
@@ -48,8 +49,10 @@ void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPO
 }
 
 void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, 
-	vector<BOOM> vecBomb, vector<POS> boomEffect)
+	vector<BOOM>& vecBomb, vector<POS>& boomEffect)
 {
+	//========== 플레이어 움직임 ==================
+
 	_pPlayer->tNewPos = _pPlayer->tpos;
 
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
@@ -66,27 +69,42 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 
 	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != '0')
 		_pPlayer->tpos = _pPlayer->tNewPos;
+	
+	//========== 플레이어 움직임 ==================
 
-	if (_kbhit())
+	//========== 키 로직 ==================
+
+	if (GetAsyncKeyState('E') & 0x8000)
 	{
-		int iInput = _getch();
-		if (iInput == 32)
+		if(_pPlayer->bWallPush)
+			_pPlayer->bPushOnOff = !_pPlayer->bPushOnOff;
+	}
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		BombCreate(_cMaze, _pPlayer, vecBomb);
+	}
+	for (int i = 0; i < _pPlayer->iBombCnt; i++)
+	{
+		//폭탄을 가져와서 라이프를 깎고, 라이프가 0 이하면 터트림
+		BOOM& boomitem = vecBomb[i];
+		boomitem.life--;
+		_cMaze[boomitem.y][boomitem.x] = ((boomitem.life % 10 >= 5) ? 'b' : 'p');
+
+		if (boomitem.life <= 0)
 		{
-			BOOM boom = { _pPlayer->tpos.x,
-			_pPlayer->tpos.y, 10, false };
-
-			vecBomb.push_back(boom);
-
-			_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x] = 'b';
+			boomitem.bDie = true;
+			_pPlayer->iBombCnt--;
+			Fire(_cMaze, _pPlayer, { boomitem.x, boomitem.y }, boomEffect);
 		}
 	}
-	
+
 		
+	//========== 키 로직 ==================
 	Sleep(100);
 }
 
 void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
-	vector<POS> boomEffect)
+	vector<POS>& boomEffect)
 {
 	for (int i = 0; i < VERTICAL; ++i)
 	{
@@ -123,5 +141,71 @@ void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 		}
 		cout << '\n';
 	}
+	cout << "SPACEBAR: 폭탄 설치, E: 푸시능력 ON/OFF" << '\n';
+	cout << "폭탄 파워: " << _pPlayer->iBombPow << '\n';
+	cout << "푸시 능력: " << (_pPlayer->bPushOnOff ? "ON " : "OFF") << '\n';
+	cout << "슬라임 능력: " << (_pPlayer->bGhost ? "ON " : "OFF") << '\n';
+}
+
+void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& vecBomb)
+{
+	// 폭탄 개수 5개 한정
+	if (_pPlayer->iBombCnt >= 5) return;
+
+	if (_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x] == '1')
+	{
+		_pPlayer->iBombCnt++;
+
+		vecBomb.push_back({ _pPlayer->tpos.x, _pPlayer->tpos.y, 30, false });
+		_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x] = 'b';
+	}
+}
+
+void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::vector<POS>& boomEffect)
+{
+	// 벽이 부서진다.
+	_cMaze[_boompos.y][_boompos.x] = '1';
+
+	
+	// 맞으면 죽는다.
+	int ibombMinRangeX = _boompos.x - _pPlayer->iBombPow;
+	int ibombMaxRangeX = _boompos.x + _pPlayer->iBombPow;
+	int ibombMinRangeY = _boompos.y - _pPlayer->iBombPow;
+	int ibombMaxRangeY = _boompos.y + _pPlayer->iBombPow;
+	if((_pPlayer->tpos.x >= ibombMinRangeX && _pPlayer->tpos.x <= ibombMaxRangeX
+		&& _pPlayer->tpos.y == _boompos.y) ||
+		(_pPlayer->tpos.y >= ibombMinRangeY && _pPlayer->tpos.y <= ibombMaxRangeY
+		&& _pPlayer->tpos.x == _boompos.x))
+		_pPlayer->tpos = { 0, 0 };
+	{
+		static vector<POS> vecEffect;
+		for (int i = ibombMinRangeX; i <= ibombMaxRangeX; ++i)
+			vecEffect.push_back({ clamp(i, 0, HORIZON - 2), _boompos.y });
+		for (int i = ibombMinRangeY; i <= ibombMaxRangeY; ++i)
+			vecEffect.push_back({ _boompos.x, clamp(i, 0, VERTICAL - 1) });
+		
+		for (const auto& pos : vecEffect)
+		{
+			boomEffect.push_back(pos);
+			// 아이템이 나온다.
+			if (_cMaze[pos.y][pos.x] == '0')
+			{
+				float fRandom = rand() % 10001 / 100.0f;
+				if (fRandom <= 50.0f)
+				{
+					// 랜덤 아이템 4 ~ 6
+					char randomitem = rand() % 3 + 4 + '0';
+					_cMaze[pos.y][pos.x] = randomitem;
+				}
+				else
+					_cMaze[pos.y][pos.x] = '1';
+			}
+		}
+		vecEffect.clear();
+	}
+	
+	// 이펙트 추가
+	
+
 
 }

@@ -13,10 +13,10 @@ using namespace std;
 
 int main()
 {
-	char	cMaze[VERTICAL][HORIZON] = {};
-	PLAYER	tPlayer = {};
-	POS		tStartpos = {};
-	POS		tEndpos = {};
+	char			cMaze[VERTICAL][HORIZON] = {};
+	PLAYER			tPlayer = {};
+	POS				tStartpos = {};
+	POS				tEndpos = {};
 
 	vector<BOOM>	vecBomb;
 	vector<POS>		boomEffect;
