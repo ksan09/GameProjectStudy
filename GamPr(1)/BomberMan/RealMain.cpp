@@ -50,11 +50,14 @@ int main()
 	system("cls");
 	// 게임 로직..
 
+	clock_t oldtime, curtime;
+	oldtime = clock();
 	while (true)
 	{
 		GoToxy(0, 0);
 		Update(cMaze, &tPlayer, vecBomb, boomEffect);
 		Render(cMaze, &tPlayer, boomEffect);
+		Event(vecBomb, boomEffect);
 		// 내가 이동하다가 도착점에 도착하면
 		// 클리어 소리
 
@@ -62,6 +65,15 @@ int main()
 		{
 			PlaySound(MAKEINTRESOURCE(IDR_WAVE1),
 				NULL, SND_RESOURCE | SND_SYNC);
+		}
+		while (true)
+		{
+			curtime = clock();
+			if (curtime - oldtime > 33)
+			{
+				oldtime = curtime;
+				break;
+			}
 		}
 	}
 }

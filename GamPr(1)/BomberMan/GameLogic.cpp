@@ -41,8 +41,8 @@ void Init(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, PPOS _pStartpos, PPO
 	_pEndpos->x = 19;
 	_pEndpos->y = 8;
 
-	PLAYER tSetPlayer = { *_pStartpos, 
-		1, 0, false, false, false };
+	PLAYER tSetPlayer = { *_pStartpos,
+		{}, 1, 0, false, false, false };
 	*_pPlayer = tSetPlayer;
 
 
@@ -69,6 +69,32 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 
 	if (_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] != '0')
 		_pPlayer->tpos = _pPlayer->tNewPos;
+	else if (_pPlayer->bPushOnOff &&
+		_cMaze[_pPlayer->tNewPos.y][_pPlayer->tNewPos.x] == '0')
+	{
+		_tagpos tDiffPos	= _pPlayer->tNewPos - _pPlayer->tpos;
+		_tagpos testpos = tDiffPos * 2;
+
+//		_tagpos tDoublepos	= _pPlayer->tpos + testpos;
+		_tagpos tDoublepos	= _pPlayer->tpos + (tDiffPos * 2);
+//		_tagpos tNextpos	= _pPlayer->tpos + tDiffPos;
+
+		//if(_cMaze[tDoublepos.y][tDoublepos.x] == '0' && _pPlayer->bGhost)
+		//	_pPlayer->tpos = _pPlayer->tNewPos;
+		//else if (_cMaze[tDoublepos.y][tDoublepos.x] == '1')
+		//{
+		//	_cMaze[tDoublepos.y][tDoublepos.x] = '0';
+		//	_cMaze[tNextpos.y][tNextpos.x] = '1';
+		//	_pPlayer->tpos = _pPlayer->tNewPos;
+		//}
+	}
+	else if (_pPlayer->bGhost)
+		_pPlayer->tpos = _pPlayer->tNewPos;
+
+	if (GetItem(_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x], _pPlayer))
+	{
+		_cMaze[_pPlayer->tpos.y][_pPlayer->tpos.x] = '1';
+	}
 	
 	//========== 플레이어 움직임 ==================
 
@@ -83,7 +109,8 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 	{
 		BombCreate(_cMaze, _pPlayer, vecBomb);
 	}
-	for (int i = 0; i < _pPlayer->iBombCnt; i++)
+	int iBombCount = _pPlayer->iBombCnt;
+	for (int i = 0; i < iBombCount; i++)
 	{
 		//폭탄을 가져와서 라이프를 깎고, 라이프가 0 이하면 터트림
 		BOOM& boomitem = vecBomb[i];
@@ -110,6 +137,20 @@ void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 	{
 		for (int j = 0; j < HORIZON; ++j)
 		{
+			bool drawed = false;
+			for (int k = 0; k < boomEffect.size(); k++)
+			{
+				if (boomEffect[k].y == i && boomEffect[k].x == j)
+				{
+					SetColor((int)COLOR::MINT, (int)COLOR::BLACK);
+					cout << "▤";
+					drawed = true;
+					break;
+				}
+			}
+			if (drawed) continue;
+			SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
+
 			if (i == _pPlayer->tpos.y
 				&& j == _pPlayer->tpos.x)
 				cout << "§";
@@ -123,9 +164,9 @@ void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 				cout << "♨";
 			else if (_cMaze[i][j] == '4') // 물풍선 powerup
 				cout << "◐";
-			else if (_cMaze[i][j] == '4') // 슬라임
+			else if (_cMaze[i][j] == '5') // 슬라임
 				cout << "♤";
-			else if (_cMaze[i][j] == '4') // 벽밀기
+			else if (_cMaze[i][j] == '6') // 벽밀기
 				cout << "☜";
 			else if (_cMaze[i][j] == 'b') // 물풍선!
 			{
@@ -194,8 +235,14 @@ void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::v
 				if (fRandom <= 50.0f)
 				{
 					// 랜덤 아이템 4 ~ 6
-					char randomitem = rand() % 3 + 4 + '0';
-					_cMaze[pos.y][pos.x] = randomitem;
+					fRandom = rand() % 10001 / 100.0f;
+					if (fRandom <= 50.0f)
+						_cMaze[pos.y][pos.x] = '4'; //물풍선
+					else if(fRandom <= 70.0f)
+						_cMaze[pos.y][pos.x] = '5'; //슬라임
+					else
+						_cMaze[pos.y][pos.x] = '6'; //벽푸쉬
+
 				}
 				else
 					_cMaze[pos.y][pos.x] = '1';
@@ -208,4 +255,44 @@ void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::v
 	
 
 
+}
+
+void Event(std::vector<BOOM>& vecBomb, std::vector<POS>& boomEffect)
+{
+	vector<BOOM>::iterator iter = vecBomb.begin();
+	for (; iter!=vecBomb.end();)
+	{
+		if (iter->bDie)
+			iter = vecBomb.erase(iter);
+		else
+			iter++;
+	}
+
+	vector<POS>::iterator iterEffect = boomEffect.begin();
+	for (; iterEffect != boomEffect.end();)
+	{
+		iter = vecBomb.erase(iter);
+	}
+}
+
+bool GetItem(char _cItem, PPLAYER _pPlayer)
+{
+	if (_cItem == '4')
+	{
+		++_pPlayer->iBombPow;
+		return true;
+	}
+	else if (_cItem == '5')
+	{
+		_pPlayer->bGhost = true;
+		return true;
+	}
+	else if (_cItem == '6')
+	{
+		_pPlayer->bWallPush = true;
+		_pPlayer->bPushOnOff = true;
+		return true;
+	}
+
+	return false;
 }

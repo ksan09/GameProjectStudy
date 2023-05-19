@@ -10,13 +10,17 @@ typedef struct _tagpos
 	int x;
 	int y;
 
+	_tagpos operator*(int v) { return { x* v, y* v }; }
+	_tagpos operator+(_tagpos& pos) { return { x + pos.x, y + pos.y }; }
+	_tagpos operator-(_tagpos& pos) { return { x - pos.x, y - pos.y }; }
 	bool operator==(_tagpos& pos) { return (pos.x == x && pos.y == y); }
 }POS, *PPOS;
+//_tagpos
 
 // 플레이어
 typedef struct _tagplayer
 {
-	POS		tpos;			//플레이어 위치
+	_tagpos		tpos;			//플레이어 위치
 	POS		tNewPos;		//플레이어 새위치
 	int		iBombPow;		//폭탄 파워
 	int		iBombCnt;		//폭탄 개수
@@ -40,3 +44,5 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>&
 void Render(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<POS>& boomEffect); // 출력
 void BombCreate(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, std::vector<BOOM>& vecBomb);
 void Fire(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer, POS _boompos, std::vector<POS>& boomEffect);
+void Event(std::vector<BOOM>& vecBomb, std::vector<POS>& boomEffect);
+bool GetItem(char _cItem, PPLAYER _pPlayer);
