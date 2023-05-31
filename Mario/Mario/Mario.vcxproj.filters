@@ -16,21 +16,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\GamPr(1)\BomberMan\console.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="console.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\GamPr(1)\BomberMan\console.h">
+    <ClInclude Include="Core.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Core.h">
+    <ClInclude Include="Define.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="console.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

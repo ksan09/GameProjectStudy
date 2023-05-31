@@ -127,13 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\GamPr(1)\BomberMan\console.cpp" />
+    <ClCompile Include="console.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\GamPr(1)\BomberMan\console.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="Core.h" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
