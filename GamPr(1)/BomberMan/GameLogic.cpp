@@ -75,9 +75,9 @@ void Update(char _cMaze[VERTICAL][HORIZON], PPLAYER _pPlayer,
 		_tagpos tDiffPos	= _pPlayer->tNewPos - _pPlayer->tpos;
 		_tagpos testpos = tDiffPos * 2;
 
-//		_tagpos tDoublepos	= _pPlayer->tpos + testpos;
+		//_tagpos tDoublepos	= _pPlayer->tpos + testpos;
 		//_tagpos tDoublepos	= _pPlayer->tpos + (tDiffPos * 2);
-//		_tagpos tNextpos	= _pPlayer->tpos + tDiffPos;
+		//_tagpos tNextpos	= _pPlayer->tpos + tDiffPos;
 
 		//if(_cMaze[tDoublepos.y][tDoublepos.x] == '0' && _pPlayer->bGhost)
 		//	_pPlayer->tpos = _pPlayer->tNewPos;

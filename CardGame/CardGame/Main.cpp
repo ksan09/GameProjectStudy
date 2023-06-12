@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <Windows.h>
 #include <vector>
+#include <queue>
 #include <unordered_map>
 #include "Define.h"
 #include "console.h"
@@ -13,13 +14,17 @@ using namespace std;
 
 int main()
 {
-	vector<Card> deck;
+	vector<Card> deckList; // 카드 뭉치 리스트 <- 저장용
+	queue<Card> deck; // 현재 카드 뭉치 <- 인게임용
+	vector<Card> hand;
 	unordered_map<string, Card> cardList;
+	
+	Init(deckList, cardList);
 
-	Card tempCard = { CARD_TYPE::DEF, 3 };
-	CardRender(3, 10, tempCard);
-	tempCard = { CARD_TYPE::ATK, 14 };
-	CardRender(12, 11, tempCard);
-	tempCard = { CARD_TYPE::DEF, 2 };
-	CardRender(21, 12, tempCard);
+	while (true)
+	{
+		Update(deckList, deck, hand);
+		Render(hand);
+		Event();
+	}
 }
