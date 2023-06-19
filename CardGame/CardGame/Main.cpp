@@ -1,30 +1,30 @@
 ﻿#include <iostream>
-#include <io.h>
-#include <fcntl.h>
-#include <conio.h>
-#include <Windows.h>
-#include <vector>
-#include <queue>
-#include <unordered_map>
+#include "pch.h"
 #include "Define.h"
 #include "console.h"
 #include "GameLogic.h"
+#include "SceneManager.h"
+#include "IngameScene.h"
 
 using namespace std;
 
 int main()
 {
-	vector<Card> deckList; // 카드 뭉치 리스트 <- 저장용
-	queue<Card> deck; // 현재 카드 뭉치 <- 인게임용
-	vector<Card> hand;
-	unordered_map<string, Card> cardList;
-	
-	Init(deckList, cardList);
+	GameLogic game = GameLogic();
 
+	if (GET_SINGLE(SceneManager) == NULL)
+		cout << "SceneManager가 없음";
+
+	// 씬 미리 등록
+	GET_SINGLE(SceneManager)->RegisterScene(L"IngameScene", make_shared<IngameScene>());
+
+	// 현재 씬 로드
+	GET_SINGLE(SceneManager)->LoadScene(L"IngameScene");
+
+	game.Init();
 	while (true)
 	{
-		Update(deckList, deck, hand);
-		Render(hand);
-		Event();
+		game.Update();
+		game.Render();
 	}
 }

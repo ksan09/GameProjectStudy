@@ -3,7 +3,7 @@
 #include <vector>
 #include <queue>
 #include <unordered_map>
-//using namespace std;
+using namespace std;
 
 class Card
 {
@@ -17,13 +17,26 @@ public:
 	std::wstring image[7];
 };
 
+class GameLogic
+{
+public:
+	GameLogic();
+	~GameLogic();
 
+public:
+	void Init();
+	void Update();
+	void Render();
 
+private:
+	UINT64	m_frequency = 0;
+	UINT64	m_prevCount = 0;
+	float	m_deltaTime = 0.0f;
 
-void Init(std::vector<Card>& deck, std::unordered_map<std::string, Card>& cardList);
-void Update(std::vector<Card>& deck, std::queue<Card>& playDeck, std::vector<Card>& hand);
-void Render(std::vector<Card>& hand);
-void Event();
+private:
+	UINT	m_frameCount = 0;
+	float	m_frameTime = 0.0f;
+};
 
 void CardRender(int posX, int posY, const Card& card);
 void DeckShuffle(std::vector<Card>& deck);
