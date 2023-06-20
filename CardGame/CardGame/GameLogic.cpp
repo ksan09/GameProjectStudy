@@ -5,10 +5,11 @@
 
 using namespace std;
 
-
-
 void CardRender(int posX, int posY, const Card& card)
 {
+	if (card.type == CARD_TYPE::EMPTY)
+		return;
+
 	int iCurmode = _setmode(_fileno(stdout), _O_U16TEXT);
 
 	int cardColor = 0;
@@ -124,6 +125,9 @@ Card::Card(CARD_TYPE type, int value, string name, wstring image[7])
 	for (int i = 0; i < 7; ++i)
 		this->image[i] = image[i];
 }
+Card::~Card()
+{
+}
 
 GameLogic::GameLogic()
 {
@@ -152,4 +156,31 @@ void GameLogic::Update()
 void GameLogic::Render()
 {
 	GET_SINGLE(SceneManager)->Render();
+}
+
+Monster::Monster()
+{
+	isDie = false;
+	maxHp = 5;
+	hp = 5;
+	for (int i = 0; i < 15; ++i)
+		image[i] = L" ";
+}
+
+Monster::Monster(int hp, std::wstring image[15]) : hp{hp}, maxHp{hp}
+{
+	isDie = false;
+	for (int i = 0; i < 15; ++i)
+		this->image[i] = image[i];
+}
+
+Monster::~Monster()
+{
+}
+
+void Monster::OnDamage(int damage)
+{
+	hp -= damage;
+	if (hp <= 0)
+		isDie = true;
 }

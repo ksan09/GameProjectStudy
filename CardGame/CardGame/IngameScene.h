@@ -28,6 +28,11 @@ private:
 	vector<Card> hand;
 	unordered_map<string, Card> cardList;
 
+	Card block[5];
+	queue<int> blockQ;
+
 	Turn currentTurn;
+	int currentSelectCardIndex;
+	int maxCardIndex;
 };
 

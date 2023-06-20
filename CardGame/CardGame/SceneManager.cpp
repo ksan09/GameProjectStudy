@@ -40,7 +40,6 @@ void SceneManager::Update(float dt)
 		return;
 	}
 
-	cout << "0";
 	m_activeScene->Update(dt);
 }
 

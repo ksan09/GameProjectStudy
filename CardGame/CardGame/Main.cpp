@@ -12,9 +12,6 @@ int main()
 {
 	GameLogic game = GameLogic();
 
-	if (GET_SINGLE(SceneManager) == NULL)
-		cout << "SceneManager가 없음";
-
 	// 씬 미리 등록
 	GET_SINGLE(SceneManager)->RegisterScene(L"IngameScene", make_shared<IngameScene>());
 
