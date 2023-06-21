@@ -14,6 +14,10 @@ public:
 	void	Init();
 	void	Update(float dt);
 	void	Render();
+	void	Release();
+
+private:
+	void	ToggleScreenRender();
 
 private:
 	shared_ptr<Scene>							m_activeScene;

@@ -21,24 +21,27 @@ class Monster
 {
 public:
 	Monster();
-	Monster(int hp, std::wstring image[15]);
+	Monster(string name, int hp, int cardCnt, std::wstring image[15]);
 	~Monster();
 
 public:
 	void OnDamage(int damage);
 
 public:
-	bool GetDie()	{ return isDie; }
-	int GetHp()		{ return hp;	}
-	int GetMaxHp()	{ return maxHp; }
+	bool GetDie()		{ return isDie;		}
+	string GetName()	{ return name;		}
+	int GetHp()			{ return hp;		}
+	int GetMaxHp()		{ return maxHp;		}
+	int GetCardCnt()	{ return cardCnt;	}
 	std::wstring image[15];
 
 private:
 	bool isDie;
+	string name;
 	int hp;
 	int maxHp;
+	int cardCnt;
 };
-
 
 class GameLogic
 {
@@ -62,5 +65,6 @@ private:
 };
 
 void CardRender(int posX, int posY, const Card& card);
+void MobRender(int posX, int posY, Monster& mob, int color);
 void DeckShuffle(std::vector<Card>& deck);
 

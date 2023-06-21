@@ -136,8 +136,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="console.cpp" />
+    <ClCompile Include="ExplainScene.cpp" />
     <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="IngameScene.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -151,8 +153,10 @@
   <ItemGroup>
     <ClInclude Include="console.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="ExplainScene.h" />
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="IngameScene.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />

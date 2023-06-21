@@ -97,6 +97,36 @@ void CardRender(int posX, int posY, const Card& card)
 	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 	iCurmode = _setmode(_fileno(stdout), O_TEXT);
 }
+
+void MobRender(int posX, int posY, Monster& mob, int color)
+{
+	int hpPer = 30 * mob.GetHp() / (float)mob.GetMaxHp() + 1;
+
+	int iCurmode = _setmode(_fileno(stdout), O_TEXT);
+	SetColor((int)COLOR::BLACK, (int)COLOR::WHITE);
+	GoToxy(posX, posY++);
+	cout << mob.GetName();
+	iCurmode = _setmode(_fileno(stdout), _O_U16TEXT);
+	SetColor((int)COLOR::RED, (int)COLOR::GRAY);
+	GoToxy(posX, posY);
+	for (int i = 0; i < 30; ++i)
+		wcout << (i < hpPer ? L"█" : L" ");
+	iCurmode = _setmode(_fileno(stdout), O_TEXT);
+	SetColor((int)COLOR::BLACK, (int)COLOR::WHITE);
+	cout << " " << mob.GetHp() << "/ " << mob.GetMaxHp() << " ";
+	iCurmode = _setmode(_fileno(stdout), _O_U16TEXT);
+	posY += 2;
+	SetColor(color, (int)COLOR::BLACK);
+	for (int i = 0; i < 15; ++i)
+	{
+		GoToxy(posX, posY + i);
+		wcout << mob.image[i];
+	}
+	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
+	iCurmode = _setmode(_fileno(stdout), O_TEXT);
+}
+
+
 void DeckShuffle(vector<Card>& deck)
 {
 	// 덱 셔플
@@ -135,6 +165,7 @@ GameLogic::GameLogic()
 
 GameLogic::~GameLogic()
 {
+	GET_SINGLE(SceneManager)->Release();
 }
 
 void GameLogic::Init()
@@ -160,24 +191,23 @@ void GameLogic::Render()
 
 Monster::Monster()
 {
+	name = "";
 	isDie = false;
+	cardCnt = 2;
 	maxHp = 5;
 	hp = 5;
 	for (int i = 0; i < 15; ++i)
 		image[i] = L" ";
 }
-
-Monster::Monster(int hp, std::wstring image[15]) : hp{hp}, maxHp{hp}
+Monster::Monster(string name, int hp, int cardCnt, std::wstring image[15]) : name{ name }, cardCnt{ cardCnt }, hp { hp }, maxHp{ hp }
 {
 	isDie = false;
 	for (int i = 0; i < 15; ++i)
 		this->image[i] = image[i];
 }
-
 Monster::~Monster()
 {
 }
-
 void Monster::OnDamage(int damage)
 {
 	hp -= damage;

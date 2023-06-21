@@ -1,13 +1,14 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "console.h"
 
 void SceneManager::RegisterScene(const wstring& sceneName, shared_ptr<Scene> scene)
 {
 	if (sceneName.empty())
-		cout << "ºñ¾îÀÖÀ½";
+		cout << "ë¹„ì–´ìžˆìŒ";
 	else if (scene == NULL)
-		cout << "³»¿ë¹°ÀÌ ¾øÀ½";
+		cout << "ë‚´ìš©ë¬¼ì´ ì—†ìŒ";
 
 	if (sceneName.empty() || scene == NULL)
 		return;
@@ -21,10 +22,13 @@ void SceneManager::LoadScene(const wstring& sceneName)
 	if (it != m_sceneContainer.end())
 	{
 		m_activeScene = it->second;
+		//í™”ë©´ ì „í™˜ íš¨ê³¼
+		ToggleScreenRender();
+
 		m_activeScene->Init();
 	}
 	else
-		cout << "·Îµå ½ÇÆÐ!";
+		cout << "ë¡œë“œ ì‹¤íŒ¨!";
 }
 
 void SceneManager::Init()
@@ -36,7 +40,7 @@ void SceneManager::Update(float dt)
 {
 	if (m_activeScene == NULL)
 	{
-		cout << "¾×Æ¼ºê ¾À ¾øÀ½";
+		cout << "ì•¡í‹°ë¸Œ ì”¬ ì—†ìŒ";
 		return;
 	}
 
@@ -49,4 +53,35 @@ void SceneManager::Render()
 		return;
 
 	m_activeScene->Render();
+}
+
+void SceneManager::Release()
+{
+	m_activeScene = NULL;
+}
+
+void SceneManager::ToggleScreenRender()
+{
+	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
+	system("cls");
+	int iCurmode = _setmode(_fileno(stdout), _O_U16TEXT);
+	for (int x = 0; x < 118; x++)
+	{
+		Sleep(1);
+		for (int y = 0; y < 30; y += 2)
+		{
+			SetColor((x/2) % 15 + 1, (int)COLOR::WHITE);
+			GoToxy(x, y);
+			wcout << L"   â–ˆâ–ˆ";
+		}
+		for (int y = 1; y < 29; y += 2)
+		{
+			SetColor((x / 2) % 15 + 1, (int)COLOR::WHITE);
+			GoToxy(118-x, y);
+			wcout << L"â–ˆâ–ˆ   ";
+		}
+	}
+	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
+	system("cls");
+	iCurmode = _setmode(_fileno(stdout), O_TEXT);
 }
