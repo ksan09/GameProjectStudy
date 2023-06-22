@@ -7,6 +7,7 @@
 #include "IngameScene.h"
 #include "IntroScene.h"
 #include "ExplainScene.h"
+#include "ClearScene.h"
 
 using namespace std;
 
@@ -19,10 +20,12 @@ int main()
 	GET_SINGLE(SceneManager)->RegisterScene(L"IntroScene", make_shared<IntroScene>());
 	GET_SINGLE(SceneManager)->RegisterScene(L"IngameScene", make_shared<IngameScene>());
 	GET_SINGLE(SceneManager)->RegisterScene(L"ExplainScene", make_shared<ExplainScene>());
+	GET_SINGLE(SceneManager)->RegisterScene(L"GameClearScene", make_shared<ClearScene>());
 
 	// 현재 씬 로드
 	GET_SINGLE(SceneManager)->LoadScene(L"IntroScene");
-
+	//GET_SINGLE(SceneManager)->LoadScene(L"IntroScene");
+	
 	game.Init();
 	while (true)
 	{

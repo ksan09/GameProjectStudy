@@ -46,6 +46,9 @@
     <ClCompile Include="ExplainScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameLogic.h">
@@ -73,6 +76,9 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="ExplainScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>

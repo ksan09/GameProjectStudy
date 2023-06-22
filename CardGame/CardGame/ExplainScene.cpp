@@ -29,19 +29,23 @@ void ExplainScene::Update(float dt)
 	case ExplainState::Menu:
 	{
 		inputCh = _getch();
+		
 		switch (inputCh)
 		{
 		case 'w':
 		case 'W':
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 			if (startIdx == 0) return;
 			startIdx--;
 			break;
 		case 's':
 		case 'S':
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 			if (startIdx == maxIdx) return;
 			startIdx++;
 			break;
 		case ' ':
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 			switch (startIdx)
 			{
 			case 0:
@@ -68,17 +72,26 @@ void ExplainScene::Update(float dt)
 	case ExplainState::AttackCard:
 		inputCh = _getch();
 		if (inputCh == ' ')
+		{
 			state = ExplainState::Menu;
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
+		}
 		break;
 	case ExplainState::DefenseCard:
 		inputCh = _getch();
 		if (inputCh == ' ')
+		{
 			state = ExplainState::Menu;
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
+		}
 		break;
 	case ExplainState::GameRule:
 		inputCh = _getch();
 		if (inputCh == ' ')
+		{
 			state = ExplainState::Menu;
+			PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
+		}
 		break;
 	default:
 		break;

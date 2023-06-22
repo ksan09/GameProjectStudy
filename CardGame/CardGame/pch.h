@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <conio.h>
 #include <windows.h>
+#include <mmsystem.h>
 #include <tchar.h>
 #include <memory>
 #include <string>
@@ -16,6 +17,8 @@
 #include <map>
 #include <queue>
 #include <unordered_map>
+
+#pragma comment(lib, "winmm.lib")
 
 using namespace std;
 

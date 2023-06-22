@@ -10,6 +10,7 @@ enum class Turn
 	Battle,
 	Animation,
 	End,
+	Clear,
 };
 enum class PlayerState
 {
@@ -31,14 +32,20 @@ public:
 	void Render()			override;
 
 private:
-	void RegisterMob(string name, int hp, int cardCnt, wstring mobImage[15]);
+	void RegisterMob(string name, int hp, vector<CARD_TYPE> mobPattern, wstring mobImage[15]);
+	void RegisterCard(CARD_TYPE type, int value, string name, wstring cardImage[7]);
+
+	Monster NextRandomMob();
+	Card RandomCard();
 
 private:
 	vector<Card> deckList; // 카드 뭉치 리스트 <- 저장용
 	queue<Card> deck; // 현재 카드 뭉치 <- 인게임용
 
 	vector<Card> hand;
+	vector<string> cardNameList;
 	unordered_map<string, Card> cardList;
+	Card clearCard[2];
 
 	Monster currentMonster;
 	vector<string> mobNameList;

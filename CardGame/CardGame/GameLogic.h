@@ -21,7 +21,7 @@ class Monster
 {
 public:
 	Monster();
-	Monster(string name, int hp, int cardCnt, std::wstring image[15]);
+	Monster(string name, int hp, std::vector<CARD_TYPE> mobPattern, std::wstring image[15]);
 	~Monster();
 
 public:
@@ -34,6 +34,7 @@ public:
 	int GetMaxHp()		{ return maxHp;		}
 	int GetCardCnt()	{ return cardCnt;	}
 	std::wstring image[15];
+	std::vector<CARD_TYPE> mobPattern;
 
 private:
 	bool isDie;

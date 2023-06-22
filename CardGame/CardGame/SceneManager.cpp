@@ -62,6 +62,7 @@ void SceneManager::Release()
 
 void SceneManager::ToggleScreenRender()
 {
+	PlaySound(TEXT("ChangeScreen.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 	system("cls");
 	int iCurmode = _setmode(_fileno(stdout), _O_U16TEXT);

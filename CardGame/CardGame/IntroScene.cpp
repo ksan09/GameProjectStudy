@@ -28,6 +28,7 @@ void IntroScene::Update(float dt)
 	case 'w':
 	case 'W':
 	{
+		PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 		if (startIdx == 0) return;
 		startIdx--;
 	}
@@ -35,12 +36,14 @@ void IntroScene::Update(float dt)
 	case 's':
 	case 'S':
 	{
+		PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 		if (startIdx == maxIdx) return;
 		startIdx++;
 	}
 	break;
 	case ' ':
 	{
+		PlaySound(TEXT("Select.wav"), nullptr, SND_FILENAME | SND_ASYNC);
 		if (startIdx == 0)
 		{
 			GET_SINGLE(SceneManager)->LoadScene(L"IngameScene");
@@ -95,15 +98,15 @@ void IntroScene::TitleRender()
 	SetColor((int)COLOR::BLACK, (int)COLOR::LIGHT_GRAY);
 	wcout << L"                                                                                                                      " << '\n';
 	wcout << L"     __   __  _______  ___      ___      _______    ______   __   __  __    _  _______  _______  _______  __    _     " << '\n';
-	wcout << L"    |  | |  ||       ||   |    |   |    |       |  |      | |  | |  ||  |  | ||       ||       ||       ||  |  | |    " << '\n';
-	wcout << L"    |  |_|  ||    ___||   |    |   |    |   _   |  |  _    ||  | |  ||   |_| ||    ___||    ___||   _   ||   |_| |    " << '\n';
-	wcout << L"    |       ||   |___ |   |    |   |    |  | |  |  | | |   ||  |_|  ||       ||   | __ |   |___ |  | |  ||       |    " << '\n';
-	wcout << L"    |       ||    ___||   |___ |   |___ |  |_|  |  | |_|   ||       ||  _    ||   ||  ||    ___||  |_|  ||  _    |    " << '\n';
-	wcout << L"    |   _   ||   |___ |       ||       ||       |  |       ||       || | |   ||   |_| ||   |___ |       || | |   |    " << '\n';
-	wcout << L"    |__| |__||_______||_______||_______||_______|  |______| |_______||_|  |__||_______||_______||_______||_|  |__|    " << '\n';
+	wcout << L"    |██| |██||███████||███|    |███|    |███████|  |      | |  | |  ||  |  | ||       ||       ||       ||  |  | |    " << '\n';
+	wcout << L"    |██|_|██||███████||███|    |███|    |███████|  |  _    ||  | |  ||   |_| ||    ___||    ___||   _   ||   |_| |    " << '\n';
+	wcout << L"    |███████||███|___ |███|    |███|    |██| |██|  | |█|   ||  |_|  ||       ||   | __ |   |___ |  |█|  ||       |    " << '\n';
+	wcout << L"    |███████||███████||███|___ |███|___ |██|_|██|  | |█|   ||       ||  _    ||   ||  ||    ___||  |█|  ||  _    |    " << '\n';
+	wcout << L"    |███████||███|___ |███████||███████||███████|  |       ||       || | |   ||   |_| ||   |___ |       || | |   |    " << '\n';
+	wcout << L"    |██| |██||███████||███████||███████||███████|  |______| |_______||_|  |__||_______||_______||_______||_|  |__|    " << '\n';
 	wcout << L"                                                                                                                      " << '\n';
 	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
-
+	iCurmode = _setmode(_fileno(stdout), _O_TEXT);
 }
 
 void IntroScene::SelectUIRender(bool select, int posY, wstring str[3])

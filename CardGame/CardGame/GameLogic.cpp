@@ -193,14 +193,17 @@ Monster::Monster()
 {
 	name = "";
 	isDie = false;
-	cardCnt = 2;
+	mobPattern.clear();
+	cardCnt = 0;
 	maxHp = 5;
 	hp = 5;
 	for (int i = 0; i < 15; ++i)
 		image[i] = L" ";
 }
-Monster::Monster(string name, int hp, int cardCnt, std::wstring image[15]) : name{ name }, cardCnt{ cardCnt }, hp { hp }, maxHp{ hp }
+Monster::Monster(string name, int hp, std::vector<CARD_TYPE> mobPattern, std::wstring image[15]) : name{ name }, cardCnt{ (int)mobPattern.size()}, hp{hp}, maxHp{hp}
 {
+	for (int i = 0; i < mobPattern.size(); ++i)
+		this->mobPattern.push_back(mobPattern[i]);
 	isDie = false;
 	for (int i = 0; i < 15; ++i)
 		this->image[i] = image[i];
