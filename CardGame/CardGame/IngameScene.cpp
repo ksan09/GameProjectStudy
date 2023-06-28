@@ -38,6 +38,16 @@ void IngameScene::Init()
 	playerMaxHP = 10;
 	battleTime = 0;
 	systemText = "";
+	hand.clear();
+	cardNameList.clear();
+	cardList.clear();
+	deckList.clear();
+	mobNameList.clear();
+	mobList.clear();
+	while (!deck.empty())
+		deck.pop();
+	while (!blockQ.empty())
+		blockQ.pop();
 
 	wstring tempEmptyImage[7] =
 	{

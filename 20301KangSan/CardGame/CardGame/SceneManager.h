@@ -1,0 +1,26 @@
+#pragma once
+#include "pch.h"
+class Scene;
+
+class SceneManager
+{
+	DECLARE_SINGLE(SceneManager)
+
+public:
+	void RegisterScene(const wstring& sceneName, shared_ptr<Scene> scene);
+	void LoadScene(const wstring& sceneName);
+
+public:
+	void	Init();
+	void	Update(float dt);
+	void	Render();
+	void	Release();
+
+private:
+	void	ToggleScreenRender();
+
+private:
+	shared_ptr<Scene>							m_activeScene;
+	map<wstring, shared_ptr<Scene>>				m_sceneContainer;
+};
+
