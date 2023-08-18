@@ -2,15 +2,14 @@
 #include <vector>
 using namespace std;
 
+//함수 포인터
+//int Add(int a, int b) -> typedef int (이름)(int, int);
 typedef int (FUNC_TYPE)(int, int);
 //using FUNC_TYPE2 = int(int, int);
 
 //함수 객체. (Functor)
 // 객체를 함수처럼 쓰고 싶은 것
 // 함수 포인터의 단점: typedef 귀찮, 형식이 안 맞으면 사용 불가
-
-// 람다.
-
 class Functor
 {
 public:
@@ -25,10 +24,8 @@ public:
 	int m_val = 0;
 };
 
-int Add(int a, int b)
-{
-	return a + b;
-}
+int Add(int a, int b) { return a + b; }
+typedef int (FUNC2)(int, int);
 
 class Item
 {
@@ -49,7 +46,7 @@ public:
 	int m_userid; // 지금 누가 가지고있냐
 };
 
-typedef bool (SELECTOR)(Item*, int); // 함수 객체란 것이 또 있다
+typedef bool (SELECTOR)(Item*, int);
 
 bool IsRareitem(Item* _item)
 {
@@ -75,10 +72,10 @@ Item* Finditem(Item _items[], int _itemcnt, SELECTOR* _select)
 
 int main()
 {
+
 	Functor func;
 	func(10);
 	func(10);
-
 
 	//Item items[5] = { };
 	//items[1].m_rarity = 3;

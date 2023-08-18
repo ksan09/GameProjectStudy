@@ -46,7 +46,7 @@ int main()
 
 	Item i1, i2;
 	v.push_back(i1); // LValue
-	i1 = i2; // 복사 생성자 호출됨
+	//i1 = i2; // 복사 생성자 호출됨
 
 	v.push_back(Item( 1, 1, ItemType::None )); // RValue
 	v.push_back(Item( 2, 5, ItemType::Weapon )); 
@@ -63,10 +63,11 @@ int main()
 		cout << "아이템 ID: " << finditem->m_itemid << endl;
 
 	// 람다 사용
+	//[](){}
 	auto findlambda = [](Item& item) { return item.m_type == ItemType::Weapon; };
 	auto finditem2 = std::find_if(v.begin(), v.end(), findlambda);
 
 	// [] <- 캡쳐
 	int id = 10;
-	auto findlambda = [id](Item& item) { return item.m_itemid = id; };
+	auto findlambda2 = [id](Item& item) { return item.m_itemid = id; };
 }

@@ -25,7 +25,6 @@ public:
 
 typedef void (Item::*TEST_FUNC)();
 
-
 int main()
 {
 	TEST_FUNC fn;
