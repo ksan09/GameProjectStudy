@@ -3,6 +3,9 @@
 
 #include "framework.h"
 #include "2-3WinAPIGameProject.h"
+#include <string>
+#include <time.h>
+using namespace std;
 
 #define MAX_LOADSTRING 100
 #define PROGRAM_TITLE L"강산의 게임"
@@ -27,6 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+    srand((unsigned int)time(NULL));
 
     // TODO: 여기에 코드를 입력합니다.
 
@@ -74,12 +78,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY23WINAPIGAMEPROJECT));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
     wcex.hCursor        = LoadCursor(nullptr, IDC_CROSS);
-    wcex.hbrBackground  = (HBRUSH)(GetStockObject(BLACK_BRUSH));
+    wcex.hbrBackground  = (HBRUSH)(GetStockObject(WHITE_BRUSH));
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_MY23WINAPIGAMEPROJECT);
     wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1));
 
     return RegisterClassExW(&wcex);
 }
@@ -98,18 +102,30 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   int iResolutionX = GetSystemMetrics(SM_CXSCREEN); //높이
+   int iResolutionY = GetSystemMetrics(SM_CYSCREEN); //높이
+
+   int iWinposX = iResolutionX / 2 - WINSIZEX / 2;
+   int iWinposY = iResolutionY / 2 - WINSIZEY / 2;
+
    HWND hWnd = CreateWindowW(
        szWindowClass, 
        L"강산의 윈도우",
-       WS_OVERLAPPEDWINDOW | WS_HSCROLL,
-       GetSystemMetrics(SM_CXSCREEN)/2 - (WINSIZEX / 2),
-       GetSystemMetrics(SM_CYSCREEN)/2 - (WINSIZEY / 2),
+       WS_OVERLAPPEDWINDOW,
+       iWinposX, 
+       iWinposY, 
        WINSIZEX, 
        WINSIZEY, 
-       nullptr, 
-       nullptr, 
+       nullptr,
+       nullptr,
        hInstance, 
        nullptr);
+
+   RECT rt = { iWinposX, iWinposY, iWinposX + WINSIZEX, iWinposY + WINSIZEY };
+   AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, true);  
+   // 계산
+   MoveWindow(hWnd, iWinposX, iWinposY, rt.right - rt.left, rt.bottom - rt.top, true);        
+   // 세팅
 
    if (!hWnd)
    {
@@ -132,35 +148,106 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+#include <time.h>
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    static wchar_t wstr[1000];
+    static int count;
     switch (message)
     {
-    case WM_COMMAND:
+    case WM_CREATE:
     {
-        int wmId = LOWORD(wParam);
-        // 메뉴 선택을 구문 분석합니다:
-        switch (wmId)
-        {
-        case IDM_ABOUT:
-            DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-            break;
-        case IDM_EXIT:
-            DestroyWindow(hWnd);
-            break;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
-        }
+        count = 0;
     }
     break;
     case WM_LBUTTONDBLCLK:
         MessageBox(hWnd, L"마우스 왼쪽 버튼 더블클릭", L"메세지 박스", MB_OK);
     break;
+    case WM_CHAR:
+    {
+        //wstring wstr = L"키 입력 감지";
+        if (wParam == VK_BACK)
+            count--;
+        else
+            wstr[count++] = wParam;
+        wstr[count] = NULL;
+
+        InvalidateRect(hWnd, nullptr, true);
+    }
+    break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
+
+        //InvalidateRect();
+#pragma region 주석처리한 수업내용들
+        //// 연습 문제1
+        //for (int x = 0; x < 17; ++x)
+        //{
+        //    MoveToEx(hdc, x * WINSIZEX / 16, 0, nullptr);
+        //    LineTo(hdc, x * WINSIZEX / 16, WINSIZEY);
+        //}
+        //for (int y = 0; y < 10; ++y)
+        //{
+        //    MoveToEx(hdc, 0, WINSIZEY/9 * y, nullptr);
+        //    LineTo(hdc, WINSIZEX, WINSIZEY/9 * y);
+        //}
+        //// 연습 문제2
+        //for (int i = 0; i < 25; ++i)
+        //{
+        //    int left = (i % 5 * 70) + 100;
+        //    int top = (i / 5 * 70) + 100;
+        //
+        //    if(i/5%2==0)
+        //        Rectangle(hdc, left, top, left + 50, top + 50);
+        //    else
+        //        Ellipse(hdc, left, top, left + 50, top + 50);
+        //}
+        
+        // 점, 선, 도형
+        ////점
+        //for (int i = 0; i < 1000; ++i)
+        //    SetPixel(hdc, rand() % 100, rand() % 100, RGB(255, 0, 0));
+        ////선
+        //// 시작점
+        //MoveToEx(hdc, 20, 20, nullptr);
+        //// 끝점
+        //LineTo(hdc, 200, 200);
+
+        //// 텍스트 출력
+        //// 1. Textout
+        //wstring wstr = L"2-3 준이 바보\n준이 메롱";
+        //TextOut(hdc, 10, 10, wstr.c_str(), wstr.length());
+        //// 2. DrawText
+        //RECT rt = { 50, 50, 500, 500 };
+        //Rectangle(hdc, 50, 50, 500, 500);
+        //DrawText(hdc, wstr.c_str(), wstr.length(), &rt, DT_RIGHT);
+
+        // 펜 쓰는 법
+        //HPEN hCyanpen = CreatePen(PS_SOLID, 10, RGB(0, 0, 255));
+        //HPEN hDefaultpen = (HPEN)SelectObject(hdc, hCyanpen);
+        //HBRUSH hMabrush = CreateSolidBrush(RGB(255, 0, 255));
+        //HBRUSH hHatchBrush = CreateHatchBrush(HS_BDIAGONAL, RGB(0, 255, 0));
+        //SelectObject(hdc, hHatchBrush);
+        //Rectangle(hdc, 100, 100, 500, 300);
+        //SelectObject(hdc, hCyanpen);
+        //Rectangle(hdc, 100, 100, 500, 300);
+        //
+        //DeleteObject(hCyanpen);
+        //DeleteObject(hMabrush);
+        //DeleteObject(hHatchBrush);
+#pragma endregion
+        TextOut(hdc, 100, 100, wstr, wcslen(wstr));
+        
+            
+
+        
+          
         // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+
+
         EndPaint(hWnd, &ps);
     }
     break;

@@ -139,6 +139,7 @@
     <ResourceCompile Include="2-3WinAPIGameProject.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\VisualStudio.ico" />
     <Image Include="2-3WinAPIGameProject.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
