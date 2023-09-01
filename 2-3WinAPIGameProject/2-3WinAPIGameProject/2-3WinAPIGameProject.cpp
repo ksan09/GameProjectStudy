@@ -152,12 +152,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static wchar_t wstr[1000];
-    static int count;
+    static pair<int, int> chRandPos;
+    static bool defaultMode = false;
+    static int count, yPos;
+    HDC hdc;
     switch (message)
     {
     case WM_CREATE:
     {
-        count = 0;
+        count = yPos = 0;
+        std::srand((unsigned int)time(NULL));
+        
     }
     break;
     case WM_LBUTTONDBLCLK:
@@ -166,20 +171,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_CHAR:
     {
         //wstring wstr = L"키 입력 감지";
-        if (wParam == VK_BACK)
-            count--;
+        ////연습 문제 2-3-2
+        if (wParam == VK_SPACE)
+            count = 0;
         else
             wstr[count++] = wParam;
         wstr[count] = NULL;
-
         InvalidateRect(hWnd, nullptr, true);
+#pragma region 이전 수업 내용
+        ////연습 문제 2-3-1
+        //wstr[0] = wParam;
+        //wstr[1] = NULL;
+        //chRandPos = defaultMode ? make_pair(count * 10, 10)
+        //    : make_pair(rand() % WINSIZEX, rand() % WINSIZEY);
+        //
+        //if (wParam == VK_SPACE)
+        //{
+        //    defaultMode = true;
+        //}
+        //InvalidateRect(hWnd, nullptr, false);
+
+        //if (wParam == VK_BACK)
+        //    count = count - 1 == -1 ? 0 : count-1;
+        //else
+        //    wstr[count++] = wParam;
+        //wstr[count] = NULL;
+#pragma endregion
+
     }
     break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-
+        hdc = BeginPaint(hWnd, &ps);
+        AddFontResource(TEXT("MaplestoryBold.ttf"));
         //InvalidateRect();
 #pragma region 주석처리한 수업내용들
         //// 연습 문제1
@@ -238,7 +263,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //DeleteObject(hMabrush);
         //DeleteObject(hHatchBrush);
 #pragma endregion
-        TextOut(hdc, 100, 100, wstr, wcslen(wstr));
+        HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0,
+            HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN,
+            TEXT("MaplestoryBold"));
+        SelectObject(hdc, hFont);
+        TextOut(hdc, chRandPos.first, chRandPos.second, wstr, wcslen(wstr));
+        
+        //RECT rt = { 0, 0, 1000, 1000 };
+        
         
             
 
