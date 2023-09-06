@@ -133,7 +133,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2-3WinAPIGameProject.cpp" />
+    <ClCompile Include="2-3WinAPIGameProject.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="2강키보드마우스.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2-3WinAPIGameProject.rc" />

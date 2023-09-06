@@ -32,6 +32,9 @@
     <ClCompile Include="2-3WinAPIGameProject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="2강키보드마우스.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2-3WinAPIGameProject.rc">

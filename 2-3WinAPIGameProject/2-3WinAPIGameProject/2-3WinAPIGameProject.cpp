@@ -154,15 +154,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     static wchar_t wstr[1000];
     static pair<int, int> chRandPos;
     static bool defaultMode = false;
-    static int count, yPos;
+    static int count, yPos, line;
     HDC hdc;
+    static wchar_t wstr2D[10][11];
+    static SIZE size;
     switch (message)
     {
     case WM_CREATE:
     {
-        count = yPos = 0;
+        count = yPos = line = 0;
         std::srand((unsigned int)time(NULL));
-        
+        CreateCaret(hWnd, nullptr, 5, 15);
+        ShowCaret(hWnd);
+
     }
     break;
     case WM_LBUTTONDBLCLK:
@@ -170,14 +174,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     break;
     case WM_CHAR:
     {
-        //wstring wstr = L"키 입력 감지";
-        ////연습 문제 2-3-2
-        if (wParam == VK_SPACE)
+        if ((wParam == VK_RETURN || count >= 10) && line < 9)
+        {
             count = 0;
-        else
-            wstr[count++] = wParam;
-        wstr[count] = NULL;
+            line++;
+        }
+        else if (count < 10)
+            wstr2D[line][count++] = wParam;
+        wstr2D[line][count] = NULL;
         InvalidateRect(hWnd, nullptr, true);
+
+        
 #pragma region 이전 수업 내용
         ////연습 문제 2-3-1
         //wstr[0] = wParam;
@@ -196,6 +203,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //else
         //    wstr[count++] = wParam;
         //wstr[count] = NULL;
+
+        //wstring wstr = L"키 입력 감지";
+        ////연습 문제 2-3-2
+        //if (wParam == VK_SPACE)
+        //    count = 0;
+        //else
+        //    wstr[count++] = wParam;
+        //wstr[count] = NULL;
+        //InvalidateRect(hWnd, nullptr, true);
 #pragma endregion
 
     }
@@ -204,7 +220,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         hdc = BeginPaint(hWnd, &ps);
-        AddFontResource(TEXT("MaplestoryBold.ttf"));
         //InvalidateRect();
 #pragma region 주석처리한 수업내용들
         //// 연습 문제1
@@ -262,20 +277,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //DeleteObject(hCyanpen);
         //DeleteObject(hMabrush);
         //DeleteObject(hHatchBrush);
+
+        //폰트추가
+        //AddFontResource(TEXT("MaplestoryBold.ttf"));
+        //HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0,
+        //    HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN,
+        //    TEXT("MaplestoryBold"));
+        //SelectObject(hdc, hFont);
 #pragma endregion
-        HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0,
-            HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN,
-            TEXT("MaplestoryBold"));
-        SelectObject(hdc, hFont);
-        TextOut(hdc, chRandPos.first, chRandPos.second, wstr, wcslen(wstr));
+        
+        GetTextExtentPoint(hdc, wstr2D[line], wcslen(wstr2D[line]), &size);
+        SetCaretPos(size.cx, line*20);
+        for(int i = 0; i <= line; ++i)
+            TextOut(hdc, 0, i * 20, wstr2D[i], wcslen(wstr2D[i]));
+        
         
         //RECT rt = { 0, 0, 1000, 1000 };
-        
-        
-            
-
-        
-          
         // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
 
 
@@ -284,6 +301,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     break;
     case WM_DESTROY:
+        HideCaret(hWnd);
+        DestroyCaret();
         PostQuitMessage(0);
         break;
     default:
