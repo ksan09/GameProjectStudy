@@ -5,6 +5,7 @@
 #include "2-3WinAPIGameProject.h"
 #include <string>
 #include <time.h>
+#include <math.h>
 using namespace std;
 
 #define MAX_LOADSTRING 100
@@ -148,74 +149,114 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
-#include <time.h>
+
+double LengthPt(int x1, int y1, int x2, int y2)
+{
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+bool InCircle(int x, int y, int mx, int my, int radius)
+{
+    return (LengthPt(x, y, mx, my) < radius);
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     HDC hdc;
-    static POINT ptObjpos = { 30,30 };
-    static POINT ptObjscale = { 60, 60 };
+    static POINT ptObjpos = { 100,100 };
+    static POINT ptObjscale = { 100, 100 };
     static RECT rectview;
-    static HBRUSH hBrush, hDefaultBrush;
+    //static HBRUSH hBrush, hDefaultBrush;
     static bool isKeyDown = false, isMove = false;
+    static int mouseX, mouseY;
+    static bool isClick = false;
     switch (message)
     {
     case WM_LBUTTONDOWN:
     {
-        int x = LOWORD(lParam);
-        int y = HIWORD(lParam);
-        int a = 0;
+        mouseX = LOWORD(lParam);
+        mouseY = HIWORD(lParam);
+
+        isClick = true;
+        SetTimer(hWnd, 1, 1, nullptr);
+        InvalidateRect(hWnd, nullptr, true);
+    }
+    break;
+    case WM_LBUTTONUP:
+    {
+        isClick = false;
+        KillTimer(hWnd, 1);
+        InvalidateRect(hWnd, nullptr, true);
+    }
+    break;
+    case WM_LBUTTONDBLCLK:
+    {
+        InvalidateRect(hWnd, nullptr, true);
+    }
+    break;
+    case WM_SIZE:
+    {
+        GetClientRect(hWnd, &rectview);
+        InvalidateRect(hWnd, nullptr, true);
     }
     break;
     case WM_CREATE:
-        //GetClientRect(hWnd, &rectview);
-        rectview = { 0, 0, 600, 600 };
+        GetClientRect(hWnd, &rectview);
+        //rectview = { 0, 0, 600, 600 };
         break;
     case WM_KEYUP:
         isKeyDown = false;
-        InvalidateRect(hWnd, nullptr, true);
+        //InvalidateRect(hWnd, nullptr, true);
         break;
     case WM_TIMER:
     {
-        if (ptObjpos.x + ptObjscale.x / 2 < rectview.right)
-        {
-            ptObjpos.x += 10;
-            InvalidateRect(hWnd, nullptr, true);
-        }
-        
+        double dist = LengthPt(ptObjpos.x, ptObjpos.y, mouseX, mouseY);
+        if (dist <= 5)
+            break;
+        double dirX = (mouseX - ptObjpos.x) / dist;
+        double dirY = (mouseY - ptObjpos.y) / dist;
+
+        int speed = 10;
+        ptObjpos.x += (int)(dirX * speed);
+        ptObjpos.y += (int)(dirY * speed);
+        InvalidateRect(hWnd, nullptr, true);
     }
     break;
     case WM_KEYDOWN:
     {
-        switch (wParam)
-        {
-        case VK_RETURN:
-        {
-            isMove = !isMove;
-            if (isMove)
-            {
-                SetTimer(hWnd, 1, 100, nullptr);
-            }
-            else
-                KillTimer(hWnd, 1);
-        }
-        break;
-        case VK_LEFT:
-            if (ptObjpos.x - ptObjscale.x / 2 > rectview.left)
-            {
-                ptObjpos.x -= 10;
-                isKeyDown = true;
-            }
-            break;
-        case VK_RIGHT:
-            if (ptObjpos.x + ptObjscale.x / 2 < rectview.right)
-            {
-                ptObjpos.x += 10;
-                isKeyDown = true;
-            }
-            break;
-        default:
-            break;
-        }
+#pragma region 이전수업
+
+        //switch (wParam)
+        //{
+        //case VK_RETURN:
+        //{
+        //    isMove = !isMove;
+        //    if (isMove)
+        //    {
+        //        SetTimer(hWnd, 1, 100, nullptr);
+        //    }
+        //    else
+        //        KillTimer(hWnd, 1);
+        //}
+        //break;
+        //case VK_LEFT:
+        //    if (ptObjpos.x - ptObjscale.x / 2 > rectview.left)
+        //    {
+        //        ptObjpos.x -= 10;
+        //        isKeyDown = true;
+        //    }
+        //    break;
+        //case VK_RIGHT:
+        //    if (ptObjpos.x + ptObjscale.x / 2 < rectview.right)
+        //    {
+        //        ptObjpos.x += 10;
+        //        isKeyDown = true;
+        //    }
+        //    break;
+        //default:
+        //    break;
+        //}
+#pragma endregion
+
         InvalidateRect(hWnd, nullptr, true);
     }
     break;
@@ -223,24 +264,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         PAINTSTRUCT ps;
         hdc = BeginPaint(hWnd, &ps);
-        hBrush = CreateSolidBrush(RGB(240, 240, 255));
-        hDefaultBrush = CreateSolidBrush(RGB(255, 255, 255));
-        
-        SelectObject(hdc, isKeyDown ? hBrush : hDefaultBrush);
+#pragma region 이전수업
 
-        Rectangle(hdc, rectview.left, rectview.top, rectview.right, rectview.bottom);
-        Ellipse(hdc,
-            ptObjpos.x - ptObjscale.x / 2,
-            ptObjpos.y - ptObjscale.y / 2,
-            ptObjpos.x + ptObjscale.x / 2,
-            ptObjpos.y + ptObjscale.y / 2);
+
+        //hBrush = CreateSolidBrush(RGB(240, 240, 255));
+        //hDefaultBrush = CreateSolidBrush(RGB(255, 255, 255));
+        
+        //SelectObject(hdc, isKeyDown ? hBrush : hDefaultBrush);
+
+        //if(isClick)
+        //    Rectangle(hdc,
+        //        ptObjpos.x - ptObjscale.x / 2,
+        //        ptObjpos.y - ptObjscale.y / 2,
+        //        ptObjpos.x + ptObjscale.x / 2,
+        //        ptObjpos.y + ptObjscale.y / 2);
+        //Ellipse(hdc,
+        //    ptObjpos.x - ptObjscale.x / 2,
+        //    ptObjpos.y - ptObjscale.y / 2,
+        //    ptObjpos.x + ptObjscale.x / 2,
+        //    ptObjpos.y + ptObjscale.y / 2);
+#pragma endregion
+        //텍스트도 가운데 맞춤으로 나올 수 있도록
+        if (isClick)
+            TextOut(hdc, mouseX, mouseY, L"강산", 2);
+        TextOut(hdc, ptObjpos.x, ptObjpos.y, L"겜마고", 3);
+        
+
         EndPaint(hWnd, &ps);
     }
     break;
     case WM_DESTROY:
         KillTimer(hWnd, 1);
-        DeleteObject(hBrush);
-        DeleteObject(hDefaultBrush);
         PostQuitMessage(0);
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
