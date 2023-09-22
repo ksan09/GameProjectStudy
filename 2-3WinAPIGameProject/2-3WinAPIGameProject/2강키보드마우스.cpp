@@ -13,6 +13,8 @@ using namespace std;
 #define WINSIZEX 1280
 #define WINSIZEY 720
 
+#define RECT_RENDER(posX, posY, scaleX, scaleY) Rectangle(hdc, posX - scaleX / 2, posY - scaleY / 2, posX + scaleX / 2, posY + scaleY / 2)
+
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -162,65 +164,18 @@ bool InCircle(int x, int y, int mx, int my, int radius)
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     HDC hdc;
-    static POINT ptObjpos = { 100,100 };
-    static POINT ptObjscale = { 100, 100 };
+    static POINT ptObjpos = { 0,0 };
+    static POINT ptObjscale = { 60, 60 };
     static RECT rectview;
     //static HBRUSH hBrush, hDefaultBrush;
     static bool isKeyDown = false, isMove = false;
     static int mouseX, mouseY;
+    static int bx = 0, by = 0;
+    static int maxBx = 16, maxBy = 9;
     static bool isClick = false;
+    static int lineSpace = 80;
     switch (message)
     {
-    case WM_LBUTTONDOWN:
-    {
-        mouseX = LOWORD(lParam);
-        mouseY = HIWORD(lParam);
-
-        isClick = true;
-        SetTimer(hWnd, 1, 1, nullptr);
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
-    case WM_LBUTTONUP:
-    {
-        isClick = false;
-        KillTimer(hWnd, 1);
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
-    case WM_LBUTTONDBLCLK:
-    {
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
-    case WM_SIZE:
-    {
-        GetClientRect(hWnd, &rectview);
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
-    case WM_CREATE:
-        GetClientRect(hWnd, &rectview);
-        //rectview = { 0, 0, 600, 600 };
-        break;
-    case WM_KEYUP:
-        isKeyDown = false;
-        //InvalidateRect(hWnd, nullptr, true);
-        break;
-    case WM_TIMER:
-    {
-        double dist = LengthPt(ptObjpos.x, ptObjpos.y, mouseX, mouseY);
-        if (dist <= 5)
-            break;
-        double dirX = (mouseX - ptObjpos.x) / dist;
-        double dirY = (mouseY - ptObjpos.y) / dist;
-
-        int speed = 10;
-        ptObjpos.x += (int)(dirX * speed);
-        ptObjpos.y += (int)(dirY * speed);
-        InvalidateRect(hWnd, nullptr, true);
-    }
-    break;
     case WM_KEYDOWN:
     {
 #pragma region 이전수업
@@ -256,7 +211,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //    break;
         //}
 #pragma endregion
-
+        switch (wParam)
+        {
+        case VK_LEFT:
+            bx = ((bx - 1) == -1 ? (maxBx-1) : (bx - 1));
+            break;
+        case VK_RIGHT:
+            bx = (bx + 1) % maxBx;
+            break;
+        case VK_DOWN:
+            by = (by + 1) % maxBy;
+            break;
+        case VK_UP:
+            by = ((by - 1) == -1 ? (maxBy - 1) : (by - 1));
+            break;
+        default:
+            break;
+        }
         InvalidateRect(hWnd, nullptr, true);
     }
     break;
@@ -265,7 +236,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         PAINTSTRUCT ps;
         hdc = BeginPaint(hWnd, &ps);
 #pragma region 이전수업
-
+        //if (isClick)
+        //    TextOut(hdc, mouseX, mouseY, L"강산", 2);
+        //TextOut(hdc, ptObjpos.x, ptObjpos.y, L"겜마고", 3);
+        //
+        //wstring wstr = L"겜프는 꿀잼";
+        //TextOut(hdc, rectview.right / 2, rectview.bottom / 2,
+        //    wstr.c_str(), wstr.length());
 
         //hBrush = CreateSolidBrush(RGB(240, 240, 255));
         //hDefaultBrush = CreateSolidBrush(RGB(255, 255, 255));
@@ -285,10 +262,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         //    ptObjpos.y + ptObjscale.y / 2);
 #pragma endregion
         //텍스트도 가운데 맞춤으로 나올 수 있도록
-        if (isClick)
-            TextOut(hdc, mouseX, mouseY, L"강산", 2);
-        TextOut(hdc, ptObjpos.x, ptObjpos.y, L"겜마고", 3);
-        
+        for(int y = 0; y <= maxBy; ++y)
+            for (int x = 0; x <= maxBx; ++x)
+            {
+                MoveToEx(hdc, x * lineSpace , 0, nullptr);
+                LineTo(hdc, x * lineSpace, maxBy * lineSpace);
+
+                MoveToEx(hdc, 0, y * lineSpace, nullptr);
+                LineTo(hdc, maxBx * lineSpace, y * lineSpace);
+            }
+
+        RECT_RENDER(bx * lineSpace + lineSpace/2, by * lineSpace + lineSpace / 2, ptObjscale.x, ptObjscale.y);
 
         EndPaint(hWnd, &ps);
     }
