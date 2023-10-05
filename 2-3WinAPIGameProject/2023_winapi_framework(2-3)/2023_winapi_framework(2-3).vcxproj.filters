@@ -23,6 +23,9 @@
     <Filter Include="Engine\03. Manager\KeyMgr">
       <UniqueIdentifier>{18997ded-935f-44f4-a834-74087a7846f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\TimeMgr">
+      <UniqueIdentifier>{85f66c4b-0e07-495a-a091-c74b07d038f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2023_winapi_framework(2-3).h">
@@ -46,6 +49,15 @@
     <ClInclude Include="define.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeMgr.h">
+      <Filter>Engine\03. Manager\TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseWindow.h">
+      <Filter>Engine\02. Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework(2-3).rc">
@@ -61,12 +73,20 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Core.cpp">
       <Filter>Engine\02. Core</Filter>
     </ClCompile>
     <ClCompile Include="KeyMgr.cpp">
       <Filter>Engine\03. Manager\KeyMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Engine\03. Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeMgr.cpp">
+      <Filter>Engine\03. Manager\TimeMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseWindow.cpp">
+      <Filter>Engine\02. Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

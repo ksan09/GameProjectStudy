@@ -1,4 +1,5 @@
 #pragma once
+
 /*
 * 싱글톤: 객체의 인스턴스가 오직 1개만 생성되는 패턴
 * - 모든 곳에서 참조가 가능해야 함
@@ -14,17 +15,7 @@
 
 class Core // GameManager
 {
-private:
-	Core();
-	~Core();
-				// static
-public:
-	static Core* GetInst()
-	{
-		static Core m_Inst;
-		return &m_Inst;
-	}
-
+	SINGLE(Core);
 
 };
 
