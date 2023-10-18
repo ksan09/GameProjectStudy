@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{16280b29-0c4a-4aae-82da-c74fea543738}</ProjectGuid>
-    <RootNamespace>My2023winapiframework23</RootNamespace>
+    <ProjectGuid>{e124a8ac-c622-4d39-8b82-7ec2e6eb40f1}</ProjectGuid>
+    <RootNamespace>Test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -104,8 +104,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -120,8 +118,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,34 +127,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="2023_winapi_framework(2-3).h" />
-    <ClInclude Include="BaseWindow.h" />
-    <ClInclude Include="Core.h" />
-    <ClInclude Include="define.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="KeyMgr.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TimeMgr.h" />
-    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseWindow.cpp" />
-    <ClCompile Include="Core.cpp" />
-    <ClCompile Include="KeyMgr.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Object.cpp" />
-    <ClCompile Include="TimeMgr.cpp" />
-    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="2023_winapi_framework(2-3).rc" />
+    <ResourceCompile Include="Test.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="2023_winapi_framework(2-3).ico" />
     <Image Include="small.ico" />
+    <Image Include="Test.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

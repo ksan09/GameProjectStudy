@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BaseWindow.h"
 #include "Resource.h"
+#include "Core.h"
 
 BaseWindow::BaseWindow(POINT _ptResoulution)
 	: m_hInst(0)
@@ -21,6 +22,13 @@ int BaseWindow::Run(HINSTANCE _hInstance, LPWSTR _lpCmdLine, int _nCmdShow)
     WindowCreate();
     WindowShow(_nCmdShow);
     WindowUpdate();
+
+    if (!Core::GetInst()->Init(m_hWnd, m_ptResolution))
+    {
+        MessageBox(m_hWnd, L"Core Error",
+            L"ERROR", MB_OK);
+    }
+
     return MessageLoop();
 }
 
@@ -94,6 +102,7 @@ LRESULT BaseWindow::WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _l
 int BaseWindow::MessageLoop()
 {
     MSG msg;
+    memset(&msg, 0, sizeof(msg));
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -107,9 +116,11 @@ int BaseWindow::MessageLoop()
         }
         else
         {
-
+            //Core 게임 루프 진행
+            Core::GetInst()->GameLoop();
         }
     }
 
+    Core::GetInst()->Release();
     return (int)msg.wParam;
 }

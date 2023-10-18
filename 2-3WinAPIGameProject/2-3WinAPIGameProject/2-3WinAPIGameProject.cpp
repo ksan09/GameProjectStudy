@@ -111,7 +111,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(
        szWindowClass, 
        L"강산의 윈도우",
-       WS_OVERLAPPEDWINDOW,
+       WS_OVERLAPPEDWINDOW | WS_HSCROLL,
        iWinposX, 
        iWinposY, 
        WINSIZEX, 
@@ -166,11 +166,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         std::srand((unsigned int)time(NULL));
         CreateCaret(hWnd, nullptr, 5, 15);
         ShowCaret(hWnd);
-
+        switch (MessageBox(hWnd, L"우짤", L"창이름", MB_YESNO | MB_ICONERROR))
+        {
+        case IDNO:
+            PostQuitMessage(0);
+            break;
+        case IDYES:
+            break;
+        }
     }
     break;
     case WM_LBUTTONDBLCLK:
-        MessageBox(hWnd, L"마우스 왼쪽 버튼 더블클릭", L"메세지 박스", MB_OK);
+        MessageBox(hWnd, L"마우스 왼쪽 버튼 더블클릭", L"메세지 박스", MB_OK | MB_ICONSTOP);
     break;
     case WM_CHAR:
     {
@@ -183,8 +190,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             wstr2D[line][count++] = wParam;
         wstr2D[line][count] = NULL;
         InvalidateRect(hWnd, nullptr, true);
-
-        
 #pragma region 이전 수업 내용
         ////연습 문제 2-3-1
         //wstr[0] = wParam;

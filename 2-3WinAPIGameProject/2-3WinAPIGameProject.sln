@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Suberunker", "Suberunker\Su
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2023_winapi_framework(2-3)", "2023_winapi_framework(2-3)\2023_winapi_framework(2-3).vcxproj", "{16280B29-0C4A-4AAE-82DA-C74FEA543738}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +53,14 @@ Global
 		{16280B29-0C4A-4AAE-82DA-C74FEA543738}.Release|x64.Build.0 = Release|x64
 		{16280B29-0C4A-4AAE-82DA-C74FEA543738}.Release|x86.ActiveCfg = Release|Win32
 		{16280B29-0C4A-4AAE-82DA-C74FEA543738}.Release|x86.Build.0 = Release|Win32
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Debug|x64.ActiveCfg = Debug|x64
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Debug|x64.Build.0 = Debug|x64
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Debug|x86.ActiveCfg = Debug|Win32
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Debug|x86.Build.0 = Debug|Win32
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Release|x64.ActiveCfg = Release|x64
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Release|x64.Build.0 = Release|x64
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Release|x86.ActiveCfg = Release|Win32
+		{E124A8AC-C622-4D39-8B82-7EC2E6EB40F1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

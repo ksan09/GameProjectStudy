@@ -26,6 +26,9 @@
     <Filter Include="Engine\03. Manager\TimeMgr">
       <UniqueIdentifier>{85f66c4b-0e07-495a-a091-c74b07d038f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\04. Object">
+      <UniqueIdentifier>{477ae4ac-76df-4851-8ef6-6216fa8ba0ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2023_winapi_framework(2-3).h">
@@ -58,6 +61,12 @@
     <ClInclude Include="BaseWindow.h">
       <Filter>Engine\02. Core</Filter>
     </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Engine\04. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework(2-3).rc">
@@ -87,6 +96,12 @@
     </ClCompile>
     <ClCompile Include="BaseWindow.cpp">
       <Filter>Engine\02. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Engine\04. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>Engine\01. Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

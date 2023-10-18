@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 #include "define.h"
+#include "Vec2.h"
 
 using std::vector;
 using std::wstring;
