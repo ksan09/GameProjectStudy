@@ -21,13 +21,20 @@ public:
 	bool Init(HWND _hWnd, POINT _ptResolution);
 	void GameLoop();
 	void Release();
+public:
+	const HWND& GetHWnd() const
+	{
+		return m_hWnd;
+	}
 private:
 	void Update();
 	void Render();
 private:
-	HWND m_hWnd;
+	HWND m_hWnd;			// 메인 윈도우 핸들
+	HDC m_hDC;				// 메인 윈도우 DC
+	HDC m_hBackDC;			// 백 버퍼 DC
+	HBITMAP m_hBackbit;		// 백 비트맵
 	POINT m_ptResolution;
-	HDC m_hDC;
 	Object m_obj;
 };
 
