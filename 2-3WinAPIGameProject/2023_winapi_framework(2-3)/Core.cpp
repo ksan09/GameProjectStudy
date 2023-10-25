@@ -2,6 +2,7 @@
 #include "Core.h"
 #include "TimeMgr.h"
 #include "KeyMgr.h"
+#include "SceneMgr.h"
 
 bool Core::Init(HWND _hWnd, POINT _ptResolution)
 {
@@ -28,6 +29,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	// === 3. Manager Init ===
 	TimeMgr::GetInst()->Init();
 	KeyMgr::GetInst()->Init();
+	SceneMgr::GetInst()->Init();
 
 	return true;
 }
@@ -51,6 +53,7 @@ void Core::Update()
 	// === Manager Update ===
 	TimeMgr::GetInst()->Update();
 	KeyMgr::GetInst()->Update();
+	SceneMgr::GetInst()->Update();
 
 	Vec2 vPos = m_obj.GetPos();
 	if (KEY_PRESS(KEY_TYPE::LEFT))
@@ -65,6 +68,7 @@ void Core::Render()
 {
 	// Clear
 	PatBlt(m_hBackDC, 0, 0, m_ptResolution.x, m_ptResolution.y, WHITENESS);
+	SceneMgr::GetInst()->Render(m_hBackDC);
 
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x+1, m_ptResolution.y+1);
 

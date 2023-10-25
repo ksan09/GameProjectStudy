@@ -9,6 +9,7 @@
 #include <string>
 #include <queue>
 #include <unordered_set>
+#include <memory>
 
 #include "define.h"
 #include "Vec2.h"

@@ -29,6 +29,15 @@
     <Filter Include="Engine\04. Object">
       <UniqueIdentifier>{477ae4ac-76df-4851-8ef6-6216fa8ba0ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\03. Manager\SceneMgr">
+      <UniqueIdentifier>{bb600aa8-1e19-4185-8369-4dd480fb2114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene">
+      <UniqueIdentifier>{f74439c7-a11b-4933-9285-f633a1ba2dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\05. Scene\MainScene">
+      <UniqueIdentifier>{200ec144-1179-4a1d-8def-56e99b49cb63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2023_winapi_framework(2-3).h">
@@ -70,6 +79,18 @@
     <ClInclude Include="enums.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="SceneMgr.h">
+      <Filter>Engine\03. Manager\SceneMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Engine\05. Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Start_Scene.h">
+      <Filter>Engine\05. Scene\MainScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_Scene.h">
+      <Filter>Engine\05. Scene\MainScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework(2-3).rc">
@@ -105,6 +126,18 @@
     </ClCompile>
     <ClCompile Include="Vec2.cpp">
       <Filter>Engine\01. Header</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneMgr.cpp">
+      <Filter>Engine\03. Manager\SceneMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Engine\05. Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Start_Scene.cpp">
+      <Filter>Engine\05. Scene\MainScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game_Scene.cpp">
+      <Filter>Engine\05. Scene\MainScene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
