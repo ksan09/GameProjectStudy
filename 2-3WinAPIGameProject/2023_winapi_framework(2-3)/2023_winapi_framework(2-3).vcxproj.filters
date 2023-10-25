@@ -67,6 +67,9 @@
     <ClInclude Include="Vec2.h">
       <Filter>Engine\01. Header</Filter>
     </ClInclude>
+    <ClInclude Include="enums.h">
+      <Filter>Engine\01. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework(2-3).rc">

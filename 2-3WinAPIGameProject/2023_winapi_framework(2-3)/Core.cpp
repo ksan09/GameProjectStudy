@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Core.h"
 #include "TimeMgr.h"
+#include "KeyMgr.h"
 
 bool Core::Init(HWND _hWnd, POINT _ptResolution)
 {
@@ -26,6 +27,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 
 	// === 3. Manager Init ===
 	TimeMgr::GetInst()->Init();
+	KeyMgr::GetInst()->Init();
 
 	return true;
 }
@@ -48,11 +50,12 @@ void Core::Update()
 {
 	// === Manager Update ===
 	TimeMgr::GetInst()->Update();
+	KeyMgr::GetInst()->Update();
 
 	Vec2 vPos = m_obj.GetPos();
-	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+	if (KEY_PRESS(KEY_TYPE::LEFT))
 		vPos.x -= 1000.f * fDT;
-	if(GetAsyncKeyState(VK_RIGHT) & 0x8000)
+	if(KEY_PRESS(KEY_TYPE::RIGHT))
 		vPos.x += 1000.f * fDT;
 
 	m_obj.SetPos(vPos);
@@ -69,6 +72,12 @@ void Core::Render()
 	Vec2 vScale = m_obj.GetScale();
 	RECT_RENDER(vPos.x, vPos.y,
 				vScale.x, vScale.y, m_hBackDC);
+
+	// cursor test
+	POINT mousepos = KeyMgr::GetInst()->GetMousePos();
+	static wchar_t mousebuf[100] = {};
+	swprintf_s(mousebuf, L"Mouse: x %d, y: %d", mousepos.x, mousepos.y);
+	TextOut(m_hBackDC, 10, 10, mousebuf, wcslen(mousebuf));
 	
 	// ¿Å±â±â
 	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y,
