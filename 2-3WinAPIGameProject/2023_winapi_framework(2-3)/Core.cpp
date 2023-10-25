@@ -60,10 +60,18 @@ void Core::Update()
 
 void Core::Render()
 {
-	Rectangle(m_hDC, -1, -1, m_ptResolution.x+1, m_ptResolution.y+1);
+	// Clear
+	PatBlt(m_hBackDC, 0, 0, m_ptResolution.x, m_ptResolution.y, WHITENESS);
+
+	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x+1, m_ptResolution.y+1);
 
 	Vec2 vPos = m_obj.GetPos();
 	Vec2 vScale = m_obj.GetScale();
 	RECT_RENDER(vPos.x, vPos.y,
-				vScale.x, vScale.y, m_hDC);
+				vScale.x, vScale.y, m_hBackDC);
+	
+	// ¿Å±â±â
+	BitBlt(m_hDC, 0, 0, m_ptResolution.x, m_ptResolution.y,
+		m_hBackDC, 0, 0, SRCCOPY);
+
 }

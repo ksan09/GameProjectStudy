@@ -12,6 +12,7 @@
 
 #include "define.h"
 #include "Vec2.h"
+#include "enums.h"
 
 using std::vector;
 using std::wstring;
