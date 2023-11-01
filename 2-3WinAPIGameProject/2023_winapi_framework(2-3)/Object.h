@@ -5,6 +5,9 @@ public:
 	Object();
 	~Object();
 public:
+	virtual void Update();
+	virtual void Render(HDC _dc);
+public:
 	void SetPos(Vec2 _vPos)			{ m_vPos = _vPos;		}
 	void SetScale(Vec2 _vScale)		{ m_vScale = _vScale;	}
 	const Vec2& GetPos()	const	{ return m_vPos;		}

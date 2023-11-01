@@ -23,8 +23,6 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 
 
 	//
-	m_obj.SetPos(Vec2({ _ptResolution.x / 2, _ptResolution.y / 2 }));
-	m_obj.SetScale(Vec2({ 150, 150 }));
 
 	// === 3. Manager Init ===
 	TimeMgr::GetInst()->Init();
@@ -39,6 +37,7 @@ void Core::GameLoop()
 
 	Update();
 	Render();
+
 }
 
 void Core::Release()
@@ -55,27 +54,15 @@ void Core::Update()
 	KeyMgr::GetInst()->Update();
 	SceneMgr::GetInst()->Update();
 
-	Vec2 vPos = m_obj.GetPos();
-	if (KEY_PRESS(KEY_TYPE::LEFT))
-		vPos.x -= 1000.f * fDT;
-	if(KEY_PRESS(KEY_TYPE::RIGHT))
-		vPos.x += 1000.f * fDT;
-
-	m_obj.SetPos(vPos);
 }
 
 void Core::Render()
 {
 	// Clear
 	PatBlt(m_hBackDC, 0, 0, m_ptResolution.x, m_ptResolution.y, WHITENESS);
-	SceneMgr::GetInst()->Render(m_hBackDC);
-
 	Rectangle(m_hBackDC, -1, -1, m_ptResolution.x+1, m_ptResolution.y+1);
 
-	Vec2 vPos = m_obj.GetPos();
-	Vec2 vScale = m_obj.GetScale();
-	RECT_RENDER(vPos.x, vPos.y,
-				vScale.x, vScale.y, m_hBackDC);
+	SceneMgr::GetInst()->Render(m_hBackDC);
 
 	// cursor test
 	POINT mousepos = KeyMgr::GetInst()->GetMousePos();

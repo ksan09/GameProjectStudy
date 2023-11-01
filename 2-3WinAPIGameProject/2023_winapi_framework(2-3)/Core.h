@@ -26,6 +26,11 @@ public:
 	{
 		return m_hWnd;
 	}
+	const POINT& GetResolution() const
+	{
+		return m_ptResolution;
+	}
+
 private:
 	void Update();
 	void Render();
@@ -35,6 +40,5 @@ private:
 	HDC m_hBackDC;			// 백 버퍼 DC
 	HBITMAP m_hBackbit;		// 백 비트맵
 	POINT m_ptResolution;
-	Object m_obj;
 };
 

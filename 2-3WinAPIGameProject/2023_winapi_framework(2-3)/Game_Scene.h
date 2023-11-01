@@ -3,5 +3,10 @@
 class Game_Scene :
     public Scene
 {
+public:
+    void Init() override;
+
+
+
 };
 
