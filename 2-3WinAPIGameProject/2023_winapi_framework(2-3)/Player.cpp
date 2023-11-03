@@ -7,20 +7,16 @@
 #include "Scene.h"
 #include "Texture.h"
 #include "PathMgr.h"
+#include "ResMgr.h"
 
 Player::Player()
 	: m_pTex(nullptr)
 {
-	m_pTex = new Texture;
-	wstring strFilePath = PathMgr::GetInst()->GetResPath();
-	strFilePath += L"Texture\\plane.bmp";
-	m_pTex->Load(strFilePath);
+	m_pTex = ResMgr::GetInst()->TexLoad(L"Player", L"Texture\\plane.bmp");
 }
 
 Player::~Player()
 {
-	if (m_pTex != nullptr)
-		delete m_pTex;
 }
 
 void Player::Update()
@@ -68,12 +64,12 @@ void Player::Render(HDC _dc)
 	//	m_pTex->GetDC()
 	//	, 0, 0, SRCCOPY);
 	
-	//// 2. 색상 빼기
-	//TransparentBlt(_dc
-	//	,(int)(vPos.x - vScale.x), (int)(vPos.y - vScale.y)
-	//	,width, height,
-	//	m_pTex->GetDC()
-	//	, 0, 0, width, height, RGB(255, 0, 255));
+	// 2. 색상 빼기
+	TransparentBlt(_dc
+		,(int)(vPos.x - vScale.x), (int)(vPos.y - vScale.y)
+		,width, height,
+		m_pTex->GetDC()
+		, 0, 0, width, height, RGB(255, 0, 255));
 
 	//// 3. 확대 축소
 	//StretchBlt(_dc

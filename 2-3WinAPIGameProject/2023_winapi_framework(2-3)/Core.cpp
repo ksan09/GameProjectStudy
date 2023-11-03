@@ -4,6 +4,7 @@
 #include "KeyMgr.h"
 #include "SceneMgr.h"
 #include "PathMgr.h"
+#include "ResMgr.h"
 
 bool Core::Init(HWND _hWnd, POINT _ptResolution)
 {
@@ -47,6 +48,9 @@ void Core::Release()
 	ReleaseDC(m_hWnd, m_hDC);
 	DeleteDC(m_hBackDC);
 	DeleteObject(m_hBackbit);
+
+	// === Manager Release ===
+	ResMgr::GetInst()->Release();
 }
 
 void Core::Update()
