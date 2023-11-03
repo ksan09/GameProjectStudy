@@ -3,6 +3,7 @@
 #include "TimeMgr.h"
 #include "KeyMgr.h"
 #include "SceneMgr.h"
+#include "PathMgr.h"
 
 bool Core::Init(HWND _hWnd, POINT _ptResolution)
 {
@@ -25,6 +26,7 @@ bool Core::Init(HWND _hWnd, POINT _ptResolution)
 	//
 
 	// === 3. Manager Init ===
+	PathMgr::GetInst()->Init();
 	TimeMgr::GetInst()->Init();
 	KeyMgr::GetInst()->Init();
 	SceneMgr::GetInst()->Init();

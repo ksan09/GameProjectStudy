@@ -30,6 +30,10 @@ public:
 	{
 		return m_ptResolution;
 	}
+	const HDC& GetMainDC() const
+	{
+		return m_hDC;
+	}
 
 private:
 	void Update();
