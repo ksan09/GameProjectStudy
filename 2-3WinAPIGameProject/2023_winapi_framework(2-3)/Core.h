@@ -34,8 +34,17 @@ public:
 	{
 		return m_hDC;
 	}
+	const HBRUSH& GetBrush(BRUSH_TYPE _eType)
+	{
+		return m_arrBrush[(UINT)_eType];
+	}
+	const HPEN& GetPen(PEN_TYPE _eType)
+	{
+		return m_arrPen[(UINT)_eType];
+	}
 
 private:
+	void CreateGDI();
 	void Update();
 	void Render();
 private:
@@ -44,5 +53,7 @@ private:
 	HDC m_hBackDC;			// 백 버퍼 DC
 	HBITMAP m_hBackbit;		// 백 비트맵
 	POINT m_ptResolution;
+	HBRUSH  m_arrBrush[(UINT)BRUSH_TYPE::END];
+	HPEN    m_arrPen[(UINT)PEN_TYPE::END];
 };
 

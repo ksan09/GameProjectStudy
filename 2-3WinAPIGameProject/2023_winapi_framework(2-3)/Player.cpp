@@ -8,11 +8,15 @@
 #include "Texture.h"
 #include "PathMgr.h"
 #include "ResMgr.h"
+#include "Collider.h"
 
 Player::Player()
 	: m_pTex(nullptr)
 {
 	m_pTex = ResMgr::GetInst()->TexLoad(L"Player", L"Texture\\plane.bmp");
+	CreateCollider();
+	GetCollider()->SetOffsetPos(Vec2(-10.f, 10.f));
+	GetCollider()->SetScale(Vec2(60.f, 80.f));
 }
 
 Player::~Player()
@@ -78,4 +82,5 @@ void Player::Render(HDC _dc)
 	//	m_pTex->GetDC()
 	//	, 0, 0, width, height, SRCCOPY);
 
+	Component_Render(_dc);
 }

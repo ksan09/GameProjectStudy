@@ -3,9 +3,10 @@
 class Texture :
     public Res
 {
-public:
+private:
     Texture();
     ~Texture();
+    friend class ResMgr;
 public:
     void Load(const wstring& _strFilePath);
     const HDC& GetDC()      const { return m_hDC; }

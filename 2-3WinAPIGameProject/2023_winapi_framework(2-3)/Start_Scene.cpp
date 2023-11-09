@@ -4,6 +4,7 @@
 #include "Core.h"
 #include "Player.h"
 #include "Monster.h"
+#include "CollisionMgr.h"
 
 void Start_Scene::Init()
 {
@@ -30,4 +31,24 @@ void Start_Scene::Init()
 		pMonsterObj->SetMoveDist(fMoveDist);
 		AddObject(pMonsterObj, OBJ_GROUP::MONSTER);
 	}
+
+	CollisionMgr::GetInst()->CheckGroup(OBJ_GROUP::BULLET,
+		OBJ_GROUP::MONSTER);
+}
+
+void Start_Scene::Update()
+{
+	Scene::Update();
+}
+
+void Start_Scene::Render(HDC _dc)
+{
+	Scene::Render(_dc);
+
+}
+
+void Start_Scene::Release()
+{
+	Scene::Release();
+	CollisionMgr::GetInst()->CheckReset();
 }

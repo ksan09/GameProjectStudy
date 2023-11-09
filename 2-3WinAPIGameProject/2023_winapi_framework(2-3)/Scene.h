@@ -9,6 +9,7 @@ public:
 public:
 	virtual void Init()				abstract;
 	virtual void Update();
+	virtual void FinalUpdate();
 	virtual void Render(HDC _dc);
 	virtual void Release();
 public:

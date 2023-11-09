@@ -22,6 +22,18 @@ void Scene::Update()
 	}
 }
 
+void Scene::FinalUpdate()
+{
+	for (UINT i = 0; i < (UINT)OBJ_GROUP::END; ++i)
+	{
+		for (size_t j = 0; j < m_vecObj[i].size(); j++)
+		{
+			m_vecObj[i][j]->FinalUpdate();
+		}
+
+	}
+}
+
 void Scene::Render(HDC _dc)
 {
 	for (UINT i = 0; i < (UINT)OBJ_GROUP::END; ++i)

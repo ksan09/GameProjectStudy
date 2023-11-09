@@ -50,6 +50,15 @@
     <Filter Include="Engine\03. Manager\ResMgr">
       <UniqueIdentifier>{41a87f6a-375e-4074-a527-f5c366bde689}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07. Component">
+      <UniqueIdentifier>{a1960694-64a9-43d3-8a7f-94f412895009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\08.Module">
+      <UniqueIdentifier>{e451e197-c99a-4a96-94d7-d80822e4075f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\03. Manager\CollisionMgr">
+      <UniqueIdentifier>{8e80a440-1364-4d2e-b1e9-89614f1bc799}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2023_winapi_framework(2-3).h">
@@ -124,6 +133,15 @@
     <ClInclude Include="ResMgr.h">
       <Filter>Engine\03. Manager\ResMgr</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\07. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectGDI.h">
+      <Filter>Engine\08.Module</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionMgr.h">
+      <Filter>Engine\03. Manager\CollisionMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2023_winapi_framework(2-3).rc">
@@ -192,6 +210,15 @@
     </ClCompile>
     <ClCompile Include="ResMgr.cpp">
       <Filter>Engine\03. Manager\ResMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\07. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectGDI.cpp">
+      <Filter>Engine\08.Module</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionMgr.cpp">
+      <Filter>Engine\03. Manager\CollisionMgr</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

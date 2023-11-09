@@ -1,5 +1,7 @@
 #pragma once
 #include "Object.h"
+
+class Texture;
 class Bullet :
     public Object
 {
@@ -20,5 +22,6 @@ private:
     float m_fDir;
     float m_fTheta;
     Vec2 m_vDir;
+    Texture* m_pTex;
 };
 

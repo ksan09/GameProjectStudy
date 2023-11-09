@@ -9,7 +9,7 @@ Monster::Monster()
 	, m_fDir(1.f)
 	, m_iHp(5)
 {
-	
+	CreateCollider();
 }
 
 Monster::~Monster()
